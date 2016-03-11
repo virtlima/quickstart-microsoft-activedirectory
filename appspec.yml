@@ -1,0 +1,14 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /root/QS_MSActiveDirectory
+hooks:
+  AfterInstall:
+    - location: ci/init_enviornment.sh
+      timeout: 30000
+      runas: root
+  ValidateService:
+    - location: ci/test_cloudformation_stack.sh
+      timeout: 30000
+      runas: root
