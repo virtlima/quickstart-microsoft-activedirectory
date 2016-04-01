@@ -3099,7 +3099,10 @@
                         {
                             "Ref" : "DomainNetBIOSName"
                         },
-                        "\\StackAdmin"
+                        "\\",
+                        {
+                            "Ref" : "DomainAdminUser"
+                        }
                     ]
                 ]
             },
@@ -3117,25 +3120,25 @@
             },
             "Description" : "VPC CIDR"
         },
-        "PublicSubnet1Id" : {
+        "PublicSubnet1ID" : {
             "Value" : {
                 "Ref" : "PublicSubnet1"
             },
-            "Description" : "Subnet ID for the public subnet in AZ1"
+            "Description" : "Public Subnet ID in AZ1"
         },
-        "PublicSubnet2Id" : {
+        "PublicSubnet2ID" : {
             "Value" : {
                 "Ref" : "PublicSubnet2"
             },
-            "Description" : "Subnet ID for the public in AZ2"
+            "Description" : "Public Subnet ID in AZ2"
         },
-        "PrivateSubnet1Id" : {
+        "PrivateSubnet1ID" : {
             "Value" : {
                 "Ref" : "PrivateSubnet1"
             },
             "Description" : "Private Subnet ID in AZ1"
         },
-        "PrivateSubnet2Id" : {
+        "PrivateSubnet2ID" : {
             "Value" : {
                 "Ref" : "PrivateSubnet2"
             },
