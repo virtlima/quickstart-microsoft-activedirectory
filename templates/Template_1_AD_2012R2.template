@@ -24,9 +24,8 @@
                         "KeyPairName",
                         "RDGWInstanceType",
                         "ADServer1InstanceType",
-                        "ADServer2NetBIOSName",
-                        "ADServer1PrivateIP",
                         "ADServer1NetBIOSName",
+                        "ADServer1PrivateIP",
                         "ADServer2InstanceType",
                         "ADServer2NetBIOSName",
                         "ADServer2PrivateIP"
