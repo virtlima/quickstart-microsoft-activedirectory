@@ -86,8 +86,7 @@
             "MinLength"   : "8",
             "MaxLength"   : "32",
             "AllowedPattern" : "(?=^.{6,255}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*",
-            "NoEcho"         : "True",
-            "Default"        : "Password123"
+            "NoEcho"         : "True"
         },
         "DomainAdminUser"      : {
             "Description" : "User name for the account that will be added as Domain Administrator. This is separate from the default \"Administrator\" account",
@@ -103,13 +102,7 @@
             "MinLength"   : "8",
             "MaxLength"   : "32",
             "AllowedPattern" : "(?=^.{6,255}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*",
-            "NoEcho"         : "true",
-            "Default"        : "Password123"
-        },
-        "UserCount"            : {
-            "Description" : "Total number of test user accounts to create in Active Directory",
-            "Type"        : "Number",
-            "Default"     : "25"
+            "NoEcho"         : "true"
         },
         "DMZ1CIDR"             : {
             "Description" : "CIDR Block for the Public DMZ Subnet located in AZ1",
@@ -798,12 +791,6 @@
                                     ]
                                 }
                             },
-                            "c:\\cfn\\scripts\\New-LabADUser.ps1"      : {
-                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/New-LabADUser.ps1"
-                            },
-                            "c:\\cfn\\scripts\\users.csv"              : {
-                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/users.csv"
-                            },
                             "c:\\cfn\\scripts\\ConvertTo-EnterpriseAdmin.ps1"              : {
                                 "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/ConvertTo-EnterpriseAdmin.ps1"
                             },
@@ -977,26 +964,6 @@
                                             {
                                                 "Ref" : "DomainAdminUser"
                                             }
-                                        ]
-                                    ]
-                                },
-                                "waitAfterCompletion" : "0"
-                            },
-                            "6-run-CreateUsers-script" : {
-                                "command" : {
-                                    "Fn::Join" : [
-                                        "",
-                                        [
-                                            "powershell.exe -ExecutionPolicy RemoteSigned",
-                                            " C:\\cfn\\scripts\\New-LabADUser.ps1 -Count ",
-                                            {
-                                                "Ref" : "UserCount"
-                                            },
-                                            " -UpnSuffix ",
-                                            {
-                                                "Ref" : "DomainDNSName"
-                                            },
-                                            " -Password p@ssword123 -EA 0"
                                         ]
                                     ]
                                 },
