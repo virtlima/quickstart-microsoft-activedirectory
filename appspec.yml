@@ -2,10 +2,10 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /root/QS_MSActiveDirectory
+    destination: /root/qs_msad
 hooks:
   AfterInstall:
-    - location: ci/init_enviornment.sh
+    - location: ci/init_environment.sh
       timeout: 30000
       runas: root
   ValidateService:
