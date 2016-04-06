@@ -618,6 +618,7 @@
         },
         "NAT1"                                : {
             "Type" : "AWS::EC2::Instance",
+            "DependsOn" : "AttachGateway",
             "Properties" : {
                 "ImageId" : {
                     "Fn::FindInMap" : [
@@ -668,7 +669,7 @@
         },
         "NAT2"                                : {
             "Type" : "AWS::EC2::Instance",
-            "DependsOn" : "NAT1",
+            "DependsOn" : "AttachGateway",
             "Properties" : {
                 "ImageId" : {
                     "Fn::FindInMap" : [
@@ -719,7 +720,7 @@
         },
         "DomainController"                    : {
             "Type" : "AWS::EC2::Instance",
-            "DependsOn" : "NAT2",
+            "DependsOn" : "NAT1",
             "Metadata"  : {
                 "AWS::CloudFormation::Init" : {
                     "configSets" : {
