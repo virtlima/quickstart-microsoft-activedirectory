@@ -55,11 +55,6 @@
         "UsePreviousValue" : false
     },
     {
-        "ParameterKey" : "UserCount",
-        "ParameterValue": "25",
-        "UsePreviousValue" : false
-    },
-    {
         "ParameterKey" : "PublicSubnet1CIDR",
         "ParameterValue": "10.0.32.0/20",
         "UsePreviousValue" : false
