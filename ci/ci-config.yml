@@ -1,5 +1,5 @@
 global:
-  qsname: qs_msad
+  qsname: qs-microsoft-activedirectory
   qsenv: dev
   reporting: true
   cis3bucket: s3://quickstart-ci-bucket
@@ -14,11 +14,8 @@ global:
     - ap-southeast-1
     - ap-southeast-2
     - ap-northeast-2
- 
+
 tests:
   qs_msadt1:
-    template_file: qs_msad-example1.template
-    parameter_input: qs_msad-exampleparms1.json
-  qs_msadt2:
-    template_file: qs_msad-example2.template
-    parameter_input: qs_msad-exampleparms2.json
+    template_file: Template_1_AD_2012R2.template
+    parameter_input: Template_1_AD_2012R2.json
