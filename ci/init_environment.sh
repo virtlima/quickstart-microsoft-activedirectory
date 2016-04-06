@@ -15,7 +15,7 @@ else
     exit 1;
 fi
 
-cd /root/qs_*/ci
+cd /root/quickstart-*/ci
 
 
 
@@ -62,7 +62,7 @@ aws s3 ls $config_global_cis3bucket/$config_global_qsname/templates
 
 if [ $? -eq 0 ];then
 echo "Templates uploaded to s3 init [complete]"
-else 
+else
 echo "Template upload failed [error]"
 exit 1
 fi
@@ -81,4 +81,3 @@ else
 echo "Python pip install [failed]"
 exit 1
 fi
-
