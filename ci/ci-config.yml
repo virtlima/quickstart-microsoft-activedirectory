@@ -1,5 +1,5 @@
 global:
-  qsname: qs_msad
+  qsname: quickstart-microsoft-activedirectory
   qsenv: dev
   reporting: true
   cis3bucket: s3://quickstart-ci-bucket

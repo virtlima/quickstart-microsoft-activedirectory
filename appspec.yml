@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /root/qs_msad
+    destination: /root/quickstart-microsoft-activedirectory
 hooks:
   AfterInstall:
     - location: ci/init_environment.sh
