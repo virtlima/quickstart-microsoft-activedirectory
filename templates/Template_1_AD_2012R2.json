@@ -1,14 +1,7 @@
 [
     {
         "ParameterKey" : "KeyPairName",
-        "ParameterValue" : {
-            "Fn::Select" : [
-                1,
-                {
-                    "AWS::EC2::KeyPair::KeyName"
-                }
-            ]
-        },
+        "ParameterValue" : "cikey",
         "UsePreviousValue" : false
     },
     {
@@ -48,7 +41,7 @@
     },
     {
         "ParameterKey" : "RestoreModePassword",
-        "ParameterValue": "Password123",
+        "ParameterValue": "Something123",
         "UsePreviousValue" : false
     },
     {
@@ -58,7 +51,7 @@
     },
     {
         "ParameterKey" : "DomainAdminPassword",
-        "ParameterValue": "Password123",
+        "ParameterValue": "Something123",
         "UsePreviousValue" : false
     },
     {
