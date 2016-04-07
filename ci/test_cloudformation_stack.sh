@@ -7,7 +7,7 @@ VERSION=3.3
 # Note: build server need to have aws cli install and configure with proper permissions
 
 # Setup Core
-cd /root/quickstart-*/ci
+cd /root/qs_*/ci
 
 EXEC_DIR=`pwd`
 echo "--------------------START--------------------"

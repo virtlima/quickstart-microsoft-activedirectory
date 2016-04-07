@@ -15,7 +15,7 @@ else
     exit 1;
 fi
 
-cd /root/quickstart-*/ci
+cd /root/qs*/ci
 
 
 
