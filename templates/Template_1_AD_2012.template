@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion" : "2010-09-09",
-    "Description"              : "(0001) - This template creates a VPC infrastructure for a multi-AZ, multi-tier deployment of a Windows based Application infrstructure. It installs 2 Active Directory Domain Controllers into subnets in seperate AZs inside a VPC, as well as Remote Desktop Gateway and NAT instances into the DMZ for each Availability Zone. The default Domain Administrator password will be the one retrieved from the instance.  For adding members to the domain, ensure that they are launched into the domain member security group created by this template and then configure them to use the AD instances fixed private IP addresses as the DNS server. **WARNING** This template creates Amazon EC2 Windows instance and related resources. You will be billed for the AWS resources used if you create a stack from this template.",
+    "Description"              : "(0001) - This template creates a VPC infrastructure for a multi-AZ, multi-tier deployment of a Windows based Application infrastructure. It installs 2 Active Directory Domain Controllers into subnets in separate AZs inside a VPC, as well as Remote Desktop Gateway and NAT instances into the DMZ for each Availability Zone. The default Domain Administrator password will be the one retrieved from the instance.  For adding members to the domain, ensure that they are launched into the domain member security group created by this template and then configure them to use the AD instances fixed private IP addresses as the DNS server. **WARNING** This template creates Amazon EC2 Windows instance and related resources. You will be billed for the AWS resources used if you create a stack from this template.",
     "Parameters"               : {
         "KeyPairName" : {
             "Description" : "Public/private key pairs allow you to securely connect to your instance after it launches",
@@ -103,6 +103,11 @@
             "MaxLength"   : "32",
             "AllowedPattern" : "(?=^.{6,255}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*",
             "NoEcho"         : "true"
+        },
+        "UserCount"            : {
+            "Description" : "Total number of test user accounts to create in Active Directory",
+            "Type"        : "Number",
+            "Default"     : "25"
         },
         "DMZ1CIDR"             : {
             "Description" : "CIDR Block for the Public DMZ Subnet located in AZ1",
@@ -792,6 +797,12 @@
                                     ]
                                 }
                             },
+                            "c:\\cfn\\scripts\\New-LabADUser.ps1"      : {
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/New-LabADUser.ps1"
+                            },
+                            "c:\\cfn\\scripts\\users.csv"              : {
+                                "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/users.csv"
+                            },
                             "c:\\cfn\\scripts\\ConvertTo-EnterpriseAdmin.ps1"              : {
                                 "source" : "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/ConvertTo-EnterpriseAdmin.ps1"
                             },
@@ -965,6 +976,26 @@
                                             {
                                                 "Ref" : "DomainAdminUser"
                                             }
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion" : "0"
+                            },
+                            "6-run-CreateUsers-script" : {
+                                "command" : {
+                                    "Fn::Join" : [
+                                        "",
+                                        [
+                                            "powershell.exe -ExecutionPolicy RemoteSigned",
+                                            " C:\\cfn\\scripts\\New-LabADUser.ps1 -Count ",
+                                            {
+                                                "Ref" : "UserCount"
+                                            },
+                                            " -UpnSuffix ",
+                                            {
+                                                "Ref" : "DomainDNSName"
+                                            },
+                                            " -Password p@ssword123 -EA 0"
                                         ]
                                     ]
                                 },

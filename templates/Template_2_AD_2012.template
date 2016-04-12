@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion" : "2010-09-09",
-    "Description"              : "(0002) - This template creates a VPC infrastructure for a multi-AZ, multi-tier deployment of a Windows based Application infrstructure. It installs 2 Windows Server instances into subnets in seperate AZs inside a VPC, as well as Remote Desktop Gateway and NAT instances into the DMZ for each Availability Zone. After extending your on-premises network to the VPC, you can promote the Windows Server instances to Domain Controllers in your AD forest. **WARNING** This template creates Amazon EC2 Windows instance and related resources. You will be billed for the AWS resources used if you create a stack from this template.",
+    "Description"              : "(0002) - This template creates a VPC infrastructure for a multi-AZ, multi-tier deployment of a Windows based Application infrastructure. It installs 2 Windows Server instances into subnets in separate AZs inside a VPC, as well as Remote Desktop Gateway and NAT instances into the DMZ for each Availability Zone. After extending your on-premises network to the VPC, you can promote the Windows Server instances to Domain Controllers in your AD forest. **WARNING** This template creates Amazon EC2 Windows instance and related resources. You will be billed for the AWS resources used if you create a stack from this template.",
     "Parameters"               : {
         "KeyPairName" : {
             "Description" : "Public/private key pairs allow you to securely connect to your instance after it launches",
@@ -567,6 +567,7 @@
         },
         "NAT1"                                : {
             "Type" : "AWS::EC2::Instance",
+            "DependsOn" : "AttachGateway",
             "Properties" : {
                 "ImageId" : {
                     "Fn::FindInMap" : [
@@ -617,7 +618,7 @@
         },
         "NAT2"                                : {
             "Type" : "AWS::EC2::Instance",
-            "DependsOn" : "NAT1",
+            "DependsOn" : "AttachGateway",
             "Properties" : {
                 "ImageId" : {
                     "Fn::FindInMap" : [
@@ -668,7 +669,7 @@
         },
         "DomainController"                    : {
             "Type" : "AWS::EC2::Instance",
-            "DependsOn" : "NAT2",
+            "DependsOn" : "NAT1",
             "Metadata"  : {
                 "AWS::CloudFormation::Init" : {
                     "configSets" : {
