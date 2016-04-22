@@ -10,10 +10,10 @@
                     },
                     "Parameters": [
                         "VPCCIDR",
-                        "PublicSubnet1CIDR",
-                        "PublicSubnet2CIDR",
                         "PrivateSubnet1CIDR",
-                        "PrivateSubnet2CIDR"
+                        "PrivateSubnet2CIDR",
+                        "PublicSubnet1CIDR",
+                        "PublicSubnet2CIDR"
                     ]
                 },
                 {
