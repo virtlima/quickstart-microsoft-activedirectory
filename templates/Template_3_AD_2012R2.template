@@ -1285,7 +1285,7 @@
             },
             "Description": "Domain administrator account"
         },
-        "VPC": {
+        "VPCID": {
             "Value": {
                 "Ref": "VPC"
             },
