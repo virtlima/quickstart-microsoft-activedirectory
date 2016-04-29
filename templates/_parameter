@@ -1,5 +1,0 @@
-#This script contain the parms that  are fed to cloudformation
-#Same format as what is passwd to the cloudformation cli
-#If no parms are needed for this template DELETE_THIS_FILE
-#Replace the example below with you own parms
-ParameterKey=DBPassword,ParameterValue=DBPassword  ParameterKey=DBRootPassword,ParameterValue=DBRootPass ParameterKey=KeyName,ParameterValue=tonynv ParameterKey=DBUser,ParameterValue=dbUser
