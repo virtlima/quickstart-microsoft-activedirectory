@@ -1145,6 +1145,14 @@
                 "SecurityGroupIngress": [
                     {
                         "IpProtocol": "tcp",
+                        "FromPort": "5985",
+                        "ToPort": "5985",
+                        "CidrIp": {
+                            "Ref": "PrivateSubnet1CIDR"
+                        }
+                    },
+                    {
+                        "IpProtocol": "tcp",
                         "FromPort": "53",
                         "ToPort": "53",
                         "CidrIp": {
@@ -1173,6 +1181,14 @@
                         "ToPort": "65535",
                         "CidrIp": {
                             "Ref": "PrivateSubnet1CIDR"
+                        }
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "5985",
+                        "ToPort": "5985",
+                        "CidrIp": {
+                            "Ref": "PrivateSubnet2CIDR"
                         }
                     },
                     {

@@ -2511,22 +2511,6 @@
                     },
                     {
                         "IpProtocol": "tcp",
-                        "FromPort": "53",
-                        "ToPort": "53",
-                        "SourceSecurityGroupId": {
-                            "Ref": "DomainMemberSG"
-                        }
-                    },
-                    {
-                        "IpProtocol": "udp",
-                        "FromPort": "53",
-                        "ToPort": "53",
-                        "SourceSecurityGroupId": {
-                            "Ref": "DomainMemberSG"
-                        }
-                    },
-                    {
-                        "IpProtocol": "tcp",
                         "FromPort": "88",
                         "ToPort": "88",
                         "SourceSecurityGroupId": {
@@ -2562,7 +2546,15 @@
                         "FromPort": "-1",
                         "ToPort": "-1",
                         "CidrIp": {
-                            "Ref": "VPCCIDR"
+                            "Ref": "PublicSubnet1CIDR"
+                        }
+                    },
+                    {
+                        "IpProtocol": "icmp",
+                        "FromPort": "-1",
+                        "ToPort": "-1",
+                        "CidrIp": {
+                            "Ref": "PublicSubnet2CIDR"
                         }
                     }
                 ]
@@ -2746,6 +2738,14 @@
                     },
                     {
                         "IpProtocol": "udp",
+                        "FromPort": "88",
+                        "ToPort": "88",
+                        "CidrIp": {
+                            "Ref": "PrivateSubnet1CIDR"
+                        }
+                    },
+                    {
+                        "IpProtocol": "udp",
                         "FromPort": "5355",
                         "ToPort": "5355",
                         "CidrIp": {
@@ -2898,22 +2898,6 @@
                     },
                     {
                         "IpProtocol": "tcp",
-                        "FromPort": "53",
-                        "ToPort": "53",
-                        "SourceSecurityGroupId": {
-                            "Ref": "DomainMemberSG"
-                        }
-                    },
-                    {
-                        "IpProtocol": "udp",
-                        "FromPort": "53",
-                        "ToPort": "53",
-                        "SourceSecurityGroupId": {
-                            "Ref": "DomainMemberSG"
-                        }
-                    },
-                    {
-                        "IpProtocol": "tcp",
                         "FromPort": "88",
                         "ToPort": "88",
                         "SourceSecurityGroupId": {
@@ -2949,7 +2933,15 @@
                         "FromPort": "-1",
                         "ToPort": "-1",
                         "CidrIp": {
-                            "Ref": "VPCCIDR"
+                            "Ref": "PublicSubnet1CIDR"
+                        }
+                    },
+                    {
+                        "IpProtocol": "icmp",
+                        "FromPort": "-1",
+                        "ToPort": "-1",
+                        "CidrIp": {
+                            "Ref": "PublicSubnet2CIDR"
                         }
                     }
                 ]
@@ -2965,6 +2957,14 @@
                 "SecurityGroupIngress": [
                     {
                         "IpProtocol": "tcp",
+                        "FromPort": "5985",
+                        "ToPort": "5985",
+                        "CidrIp": {
+                            "Ref": "PrivateSubnet1CIDR"
+                        }
+                    },
+                    {
+                        "IpProtocol": "tcp",
                         "FromPort": "53",
                         "ToPort": "53",
                         "CidrIp": {
@@ -2993,6 +2993,14 @@
                         "ToPort": "65535",
                         "CidrIp": {
                             "Ref": "PrivateSubnet1CIDR"
+                        }
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "5985",
+                        "ToPort": "5985",
+                        "CidrIp": {
+                            "Ref": "PrivateSubnet2CIDR"
                         }
                     },
                     {
