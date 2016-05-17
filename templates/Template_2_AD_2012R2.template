@@ -171,9 +171,9 @@
         }
     },
     "Mappings": {
-        "AWSWinRegionMap": {
+        "AWSAMIRegionMap": {
             "AMI": {
-                "Name": "Windows_Server-2012-R2_RTM-English-64Bit-Base-2016.04.13"
+                "WS2012R2": "Windows_Server-2012-R2_RTM-English-64Bit-Base-2016.04.13"
             },
             "ap-northeast-1": {
                 "WS2012R2": "ami-ff435e91"
@@ -767,7 +767,7 @@
             "Properties": {
                 "ImageId": {
                     "Fn::FindInMap": [
-                        "AWSWinRegionMap",
+                        "AWSAMIRegionMap",
                         {
                             "Ref": "AWS::Region"
                         },
@@ -969,7 +969,7 @@
             "Properties": {
                 "ImageId": {
                     "Fn::FindInMap": [
-                        "AWSWinRegionMap",
+                        "AWSAMIRegionMap",
                         {
                             "Ref": "AWS::Region"
                         },
@@ -1156,7 +1156,7 @@
             "Properties": {
                 "ImageId": {
                     "Fn::FindInMap": [
-                        "AWSWinRegionMap",
+                        "AWSAMIRegionMap",
                         {
                             "Ref": "AWS::Region"
                         },
@@ -1341,7 +1341,7 @@
             "Properties": {
                 "ImageId": {
                     "Fn::FindInMap": [
-                        "AWSWinRegionMap",
+                        "AWSAMIRegionMap",
                         {
                             "Ref": "AWS::Region"
                         },

@@ -151,88 +151,50 @@
         }
     },
     "Mappings": {
-        "AWSInstanceType2Arch": {
-            "m4.large": {
-                "Arch": "64"
-            },
-            "t2.small": {
-                "Arch": "64"
-            },
-            "t2.medium": {
-                "Arch": "64"
-            },
-            "m4.xlarge": {
-                "Arch": "64"
-            },
-            "m4.2xlarge": {
-                "Arch": "64"
-            },
-            "m4.4xlarge": {
-                "Arch": "64"
-            }
-        },
-        "AWSRegionArch2AMI": {
+        "AWSAMIRegionMap": {
             "AMI": {
-                "Name": "Windows_Server-2012-R2_RTM-English-64Bit-Base-2016.04.13"
+                "AWSNAT": "amzn-ami-vpc-nat-hvm-2016.03.1.x86_64-ebs",
+                "WS2012R2": "Windows_Server-2012-R2_RTM-English-64Bit-Base-2016.04.13"
             },
             "ap-northeast-1": {
-                "64": "ami-ff435e91"
+                "AWSNAT": "ami-5d170c33",
+                "WS2012R2": "ami-ff435e91"
             },
             "ap-northeast-2": {
-                "64": "ami-c6de16a8"
+                "AWSNAT": "ami-0d32fa63",
+                "WS2012R2": "ami-c6de16a8"
             },
             "ap-southeast-1": {
-                "64": "ami-63489d00"
+                "AWSNAT": "ami-4ddb0c2e",
+                "WS2012R2": "ami-63489d00"
             },
             "ap-southeast-2": {
-                "64": "ami-a1f7d5c2"
+                "AWSNAT": "ami-9094b9f3",
+                "WS2012R2": "ami-a1f7d5c2"
             },
             "eu-central-1": {
-                "64": "ami-3acf2f55"
+                "AWSNAT": "ami-b2c321dd",
+                "WS2012R2": "ami-3acf2f55"
             },
             "eu-west-1": {
-                "64": "ami-9ebb39ed"
+                "AWSNAT": "ami-a2971ed1",
+                "WS2012R2": "ami-9ebb39ed"
             },
             "sa-east-1": {
-                "64": "ami-6efd7302"
+                "AWSNAT": "ami-a28d04ce",
+                "WS2012R2": "ami-6efd7302"
             },
             "us-east-1": {
-                "64": "ami-c8a9baa2"
+                "AWSNAT": "ami-bae80fd7",
+                "WS2012R2": "ami-c8a9baa2"
             },
             "us-west-1": {
-                "64": "ami-032f5063"
+                "AWSNAT": "ami-3885fb58",
+                "WS2012R2": "ami-032f5063"
             },
             "us-west-2": {
-                "64": "ami-87c037e7"
-            }
-        },
-        "AWSRegionArchNatAMI": {
-            "us-east-1": {
-                "64": "ami-4c9e4b24"
-            },
-            "us-west-2": {
-                "64": "ami-bb69128b"
-            },
-            "us-west-1": {
-                "64": "ami-2b2b296e"
-            },
-            "eu-west-1": {
-                "64": "ami-3760b040"
-            },
-            "eu-central-1": {
-                "64": "ami-204c7a3d"
-            },
-            "ap-southeast-1": {
-                "64": "ami-b082dae2"
-            },
-            "ap-southeast-2": {
-                "64": "ami-996402a3"
-            },
-            "ap-northeast-1": {
-                "64": "ami-55c29e54"
-            },
-            "sa-east-1": {
-                "64": "ami-b972dba4"
+                "AWSNAT": "ami-d3f506b3",
+                "WS2012R2": "ami-87c037e7"
             }
         }
     },
@@ -633,19 +595,11 @@
             "Properties": {
                 "ImageId": {
                     "Fn::FindInMap": [
-                        "AWSRegionArchNatAMI",
+                        "AWSAMIRegionMap",
                         {
                             "Ref": "AWS::Region"
                         },
-                        {
-                            "Fn::FindInMap": [
-                                "AWSInstanceType2Arch",
-                                {
-                                    "Ref": "NATInstanceType"
-                                },
-                                "Arch"
-                            ]
-                        }
+                        "AWSNAT"
                     ]
                 },
                 "InstanceType": {
@@ -684,19 +638,11 @@
             "Properties": {
                 "ImageId": {
                     "Fn::FindInMap": [
-                        "AWSRegionArchNatAMI",
+                        "AWSAMIRegionMap",
                         {
                             "Ref": "AWS::Region"
                         },
-                        {
-                            "Fn::FindInMap": [
-                                "AWSInstanceType2Arch",
-                                {
-                                    "Ref": "NATInstanceType"
-                                },
-                                "Arch"
-                            ]
-                        }
+                        "AWSNAT"
                     ]
                 },
                 "InstanceType": {
@@ -1159,19 +1105,11 @@
             "Properties": {
                 "ImageId": {
                     "Fn::FindInMap": [
-                        "AWSRegionArch2AMI",
+                        "AWSAMIRegionMap",
                         {
                             "Ref": "AWS::Region"
                         },
-                        {
-                            "Fn::FindInMap": [
-                                "AWSInstanceType2Arch",
-                                {
-                                    "Ref": "ADInstanceType"
-                                },
-                                "Arch"
-                            ]
-                        }
+                        "WS2012R2"
                     ]
                 },
                 "InstanceType": {
@@ -1578,19 +1516,11 @@
             "Properties": {
                 "ImageId": {
                     "Fn::FindInMap": [
-                        "AWSRegionArch2AMI",
+                        "AWSAMIRegionMap",
                         {
                             "Ref": "AWS::Region"
                         },
-                        {
-                            "Fn::FindInMap": [
-                                "AWSInstanceType2Arch",
-                                {
-                                    "Ref": "AD2InstanceType"
-                                },
-                                "Arch"
-                            ]
-                        }
+                        "WS2012R2"
                     ]
                 },
                 "InstanceType": {
@@ -1857,19 +1787,11 @@
             "Properties": {
                 "ImageId": {
                     "Fn::FindInMap": [
-                        "AWSRegionArch2AMI",
+                        "AWSAMIRegionMap",
                         {
                             "Ref": "AWS::Region"
                         },
-                        {
-                            "Fn::FindInMap": [
-                                "AWSInstanceType2Arch",
-                                {
-                                    "Ref": "AD2InstanceType"
-                                },
-                                "Arch"
-                            ]
-                        }
+                        "WS2012R2"
                     ]
                 },
                 "InstanceType": {
@@ -2134,19 +2056,11 @@
             "Properties": {
                 "ImageId": {
                     "Fn::FindInMap": [
-                        "AWSRegionArch2AMI",
+                        "AWSAMIRegionMap",
                         {
                             "Ref": "AWS::Region"
                         },
-                        {
-                            "Fn::FindInMap": [
-                                "AWSInstanceType2Arch",
-                                {
-                                    "Ref": "AD2InstanceType"
-                                },
-                                "Arch"
-                            ]
-                        }
+                        "WS2012R2"
                     ]
                 },
                 "InstanceType": {
