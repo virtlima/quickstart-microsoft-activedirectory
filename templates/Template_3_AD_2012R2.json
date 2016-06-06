@@ -5,16 +5,6 @@
         "UsePreviousValue": false
     },
     {
-        "ParameterKey": "ADServer1InstanceType",
-        "ParameterValue": "m4.xlarge",
-        "UsePreviousValue": false
-    },
-    {
-        "ParameterKey": "ADServer2InstanceType",
-        "ParameterValue": "m4.xlarge",
-        "UsePreviousValue": false
-    },
-    {
         "ParameterKey": "RDGWInstanceType",
         "ParameterValue": "m4.xlarge",
         "UsePreviousValue": false
@@ -27,26 +17,6 @@
     {
         "ParameterKey": "DomainNetBIOSName",
         "ParameterValue": "example",
-        "UsePreviousValue": false
-    },
-    {
-        "ParameterKey": "ADServer1NetBIOSName",
-        "ParameterValue": "DC1",
-        "UsePreviousValue": false
-    },
-    {
-        "ParameterKey": "ADServer2NetBIOSName",
-        "ParameterValue": "DC2",
-        "UsePreviousValue": false
-    },
-    {
-        "ParameterKey": "RestoreModePassword",
-        "ParameterValue": "Something123",
-        "UsePreviousValue": false
-    },
-    {
-        "ParameterKey": "DomainAdminUser",
-        "ParameterValue": "StackAdmin",
         "UsePreviousValue": false
     },
     {
@@ -77,16 +47,6 @@
     {
         "ParameterKey": "VPCCIDR",
         "ParameterValue": "10.0.0.0/16",
-        "UsePreviousValue": false
-    },
-    {
-        "ParameterKey": "ADServer1PrivateIP",
-        "ParameterValue": "10.0.0.10",
-        "UsePreviousValue": false
-    },
-    {
-        "ParameterKey": "ADServer2PrivateIP",
-        "ParameterValue": "10.0.64.10",
         "UsePreviousValue": false
     }
 ]
