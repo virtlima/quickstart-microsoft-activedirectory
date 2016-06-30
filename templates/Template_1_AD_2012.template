@@ -165,8 +165,8 @@
                 "WS2012R2": "ami-082ee566"
             },
             "ap-south-1": {
-                "AWSNAT": "ami-a275b1c2",
-                "WS2012R2": "ami-8d0acfed"
+                "AWSNAT": "ami-e2b9d38d",
+                "WS2012R2": "ami-7aacc615"
             },
             "ap-southeast-1": {
                 "AWSNAT": "ami-a79b49c4",
