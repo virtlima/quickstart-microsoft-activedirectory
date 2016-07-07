@@ -41,7 +41,7 @@
     },
     {
         "ParameterKey": "RestoreModePassword",
-        "ParameterValue": "Something123",
+        "ParameterValue": "$[alfred_genpass_32]",
         "UsePreviousValue": false
     },
     {
@@ -51,7 +51,7 @@
     },
     {
         "ParameterKey": "DomainAdminPassword",
-        "ParameterValue": "Something123",
+        "ParameterValue": "$[alfred_genpass_32]",
         "UsePreviousValue": false
     },
     {

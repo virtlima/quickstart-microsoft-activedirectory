@@ -21,7 +21,7 @@
     },
     {
         "ParameterKey": "DomainAdminPassword",
-        "ParameterValue": "Something123",
+        "ParameterValue": "$[alfred_genpass_32]",
         "UsePreviousValue": false
     },
     {
