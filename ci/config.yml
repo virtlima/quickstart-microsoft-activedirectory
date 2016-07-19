@@ -32,3 +32,18 @@ tests:
       - us-east-1
       - us-west-2
     template_file: Template_3_AD_2012R2.template
+  master1:
+    parameter_input: ad-master-1.json
+    regions:
+      - us-east-1
+    template_file: ad-master-1.template
+  master2:
+    parameter_input: ad-master-2.json
+    regions:
+      - us-east-1
+    template_file: ad-master-2.template
+  master3:
+    parameter_input: ad-master-3.json
+    regions:
+      - us-east-1
+    template_file: ad-master-3.template
