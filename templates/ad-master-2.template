@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "This template creates a VPC infrastructure for a multi-AZ, multi-tier deployment of a Windows based Application infrastructure. It installs 2 Active Directory Domain Controllers into subnets in separate AZs inside a VPC, as well as Remote Desktop Gateway instances and managed NAT gateways into the public subnet for each Availability Zone. The default Domain Administrator password will be the one retrieved from the instance.  For adding members to the domain, ensure that they are launched into the domain member security group created by this template and then configure them to use the AD instances fixed private IP addresses as the DNS server. **WARNING** This template creates Amazon EC2 Windows instance and related resources. You will be billed for the AWS resources used if you create a stack from this template.",
+    "Description": "This template creates a VPC infrastructure for a multi-AZ, multi-tier deployment of a Windows based Application infrastructure. It installs 2 Windows Server instances into private subnets in separate Availability Zones inside a VPC, as well as Remote Desktop Gateway instances and managed NAT gateways into the public subnet for each Availability Zone. After extending your on-premises network to the VPC, you can promote the Windows Server instances to Domain Controllers in your AD forest. **WARNING** This template creates Amazon EC2 Windows instance and related resources. You will be billed for the AWS resources used if you create a stack from this template.",
     "Metadata": {
         "AWS::CloudFormation::Interface": {
             "ParameterGroups": [
@@ -151,6 +151,10 @@
         },
         "ADServer1InstanceType": {
             "AllowedValues": [
+                "t2.large",
+                "m3.large",
+                "m3.xlarge",
+                "m3.2xlarge",
                 "m4.large",
                 "m4.xlarge",
                 "m4.2xlarge",
@@ -176,6 +180,10 @@
         },
         "ADServer2InstanceType": {
             "AllowedValues": [
+                "t2.large",
+                "m3.large",
+                "m3.xlarge",
+                "m3.2xlarge",
                 "m4.large",
                 "m4.xlarge",
                 "m4.2xlarge",
