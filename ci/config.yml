@@ -48,6 +48,7 @@ tests:
     template_file: Template_2_AD_2012R2.template
   template3:
     parameter_input: Template_3_AD_2012R2.json
+    # Execute only in regions that support AWS Directory Service for Microsoft AD
     regions:
       - ap-northeast-1
       - ap-southeast-1
@@ -65,4 +66,13 @@ tests:
     template_file: ad-master-2.template
   master3:
     parameter_input: ad-master-3.json
+    # Execute only in regions that support AWS Directory Service for Microsoft AD
+    regions:
+      - ap-northeast-1
+      - ap-southeast-1
+      - ap-southeast-2
+      - eu-central-1
+      - eu-west-1
+      - us-east-1
+      - us-west-2
     template_file: ad-master-3.template
