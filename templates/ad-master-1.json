@@ -1,7 +1,7 @@
 [
     {
         "ParameterKey": "ADServer1InstanceType",
-        "ParameterValue": "m4.xlarge"
+        "ParameterValue": "t2.large"
     },
     {
         "ParameterKey": "ADServer1NetBIOSName",
@@ -13,7 +13,7 @@
     },
     {
         "ParameterKey": "ADServer2InstanceType",
-        "ParameterValue": "m4.xlarge"
+        "ParameterValue": "t2.large"
     },
     {
         "ParameterKey": "ADServer2NetBIOSName",

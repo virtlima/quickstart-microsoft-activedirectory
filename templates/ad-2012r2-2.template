@@ -82,9 +82,6 @@
     },
     "Parameters": {
         "ADServer1InstanceType": {
-            "Description": "Amazon EC2 instance type for the first Active Directory Instance",
-            "Type": "String",
-            "Default": "m4.xlarge",
             "AllowedValues": [
                 "t2.large",
                 "m3.large",
@@ -94,25 +91,25 @@
                 "m4.xlarge",
                 "m4.2xlarge",
                 "m4.4xlarge"
-            ]
+            ],
+            "Default": "m4.xlarge",
+            "Description": "Amazon EC2 instance type for the first Active Directory Instance",
+            "Type": "String"
         },
         "ADServer1NetBIOSName": {
-            "Description": "NetBIOS name of the 1st AD Server (upto 15 characters)",
-            "Type": "String",
+            "AllowedPattern": "[a-zA-Z0-9]+",
             "Default": "DC1",
-            "MinLength": "1",
+            "Description": "NetBIOS name of the 1st AD Server (upto 15 characters)",
             "MaxLength": "15",
-            "AllowedPattern": "[a-zA-Z0-9]+"
+            "MinLength": "1",
+            "Type": "String"
         },
         "ADServer1PrivateIP": {
+            "Default": "10.0.0.10",
             "Description": "Fixed private IP for the first Active Directory server located in AZ1",
-            "Type": "String",
-            "Default": "10.0.0.10"
+            "Type": "String"
         },
         "ADServer2InstanceType": {
-            "Description": "Amazon EC2 instance type for the second Active Directory Instance",
-            "Type": "String",
-            "Default": "m4.xlarge",
             "AllowedValues": [
                 "t2.large",
                 "m3.large",
@@ -122,20 +119,23 @@
                 "m4.xlarge",
                 "m4.2xlarge",
                 "m4.4xlarge"
-            ]
+            ],
+            "Default": "m4.xlarge",
+            "Description": "Amazon EC2 instance type for the second Active Directory Instance",
+            "Type": "String"
         },
         "ADServer2NetBIOSName": {
-            "Description": "NetBIOS name of the 2nd AD Server (upto 15 characters)",
-            "Type": "String",
+            "AllowedPattern": "[a-zA-Z0-9]+",
             "Default": "DC2",
-            "MinLength": "1",
+            "Description": "NetBIOS name of the 2nd AD Server (upto 15 characters)",
             "MaxLength": "15",
-            "AllowedPattern": "[a-zA-Z0-9]+"
+            "MinLength": "1",
+            "Type": "String"
         },
         "ADServer2PrivateIP": {
+            "Default": "10.0.32.10",
             "Description": "Fixed private IP for the second Active Directory serverr located in AZ2",
-            "Type": "String",
-            "Default": "10.0.32.10"
+            "Type": "String"
         },
         "KeyPairName": {
             "Description": "Public/private key pairs allow you to securely connect to your instance after it launches",
@@ -174,10 +174,10 @@
             "Type": "String"
         },
         "VPCCIDR": {
-            "Description": "CIDR Block for the VPC",
-            "Type": "String",
+            "AllowedPattern": "[a-zA-Z0-9]+\\..+",
             "Default": "10.0.0.0/16",
-            "AllowedPattern": "[a-zA-Z0-9]+\\..+"
+            "Description": "CIDR Block for the VPC",
+            "Type": "String"
         },
         "VPCID": {
             "Description": "ID of the VPC (e.g., vpc-0343606e)",
