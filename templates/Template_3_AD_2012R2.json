@@ -1,52 +1,42 @@
 [
     {
         "ParameterKey": "KeyPairName",
-        "ParameterValue": "cikey",
-        "UsePreviousValue": false
+        "ParameterValue": "cikey"
     },
     {
         "ParameterKey": "RDGWInstanceType",
-        "ParameterValue": "m4.xlarge",
-        "UsePreviousValue": false
+        "ParameterValue": "m4.xlarge"
     },
     {
         "ParameterKey": "DomainDNSName",
-        "ParameterValue": "example.com",
-        "UsePreviousValue": false
+        "ParameterValue": "example.com"
     },
     {
         "ParameterKey": "DomainNetBIOSName",
-        "ParameterValue": "example",
-        "UsePreviousValue": false
+        "ParameterValue": "example"
     },
     {
         "ParameterKey": "DomainAdminPassword",
-        "ParameterValue": "$[alfred_genpass_32]",
-        "UsePreviousValue": false
+        "ParameterValue": "$[alfred_genpass_32]"
     },
     {
         "ParameterKey": "PublicSubnet1CIDR",
-        "ParameterValue": "10.0.32.0/20",
-        "UsePreviousValue": false
+        "ParameterValue": "10.0.32.0/20"
     },
     {
         "ParameterKey": "PublicSubnet2CIDR",
-        "ParameterValue": "10.0.96.0/20",
-        "UsePreviousValue": false
+        "ParameterValue": "10.0.96.0/20"
     },
     {
         "ParameterKey": "PrivateSubnet1CIDR",
-        "ParameterValue": "10.0.0.0/19",
-        "UsePreviousValue": false
+        "ParameterValue": "10.0.0.0/19"
     },
     {
         "ParameterKey": "PrivateSubnet2CIDR",
-        "ParameterValue": "10.0.64.0/19",
-        "UsePreviousValue": false
+        "ParameterValue": "10.0.64.0/19"
     },
     {
         "ParameterKey": "VPCCIDR",
-        "ParameterValue": "10.0.0.0/16",
-        "UsePreviousValue": false
+        "ParameterValue": "10.0.0.0/16"
     }
 ]
