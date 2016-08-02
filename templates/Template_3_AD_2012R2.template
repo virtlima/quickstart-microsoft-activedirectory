@@ -452,6 +452,7 @@
             }
         },
         "PublicRoute": {
+            "DependsOn": "VPCGatewayAttachment",
             "Type": "AWS::EC2::Route",
             "Properties": {
                 "RouteTableId": {

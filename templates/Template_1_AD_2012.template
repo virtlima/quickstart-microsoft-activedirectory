@@ -456,6 +456,7 @@
             }
         },
         "DMZRoute": {
+            "DependsOn": "AttachGateway",
             "Type": "AWS::EC2::Route",
             "Properties": {
                 "RouteTableId": {
