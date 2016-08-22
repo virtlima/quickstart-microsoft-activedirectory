@@ -795,7 +795,7 @@
                                 "source": "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/xAdcsDeployment_0.1.0.0.zip"
                             },
                             "c:\\cfn\\scripts\\Unzip-Archive.ps1": {
-                                "source": "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/microsoft-utilities/scripts/Unzip-Archive.ps1"
+                                "source": "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/submodules/quickstart-microsoft-utilities/scripts/Unzip-Archive.ps1"
                             }
                         },
                         "services": {
@@ -1263,7 +1263,7 @@
                                 "source": "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/xAdcsDeployment_0.1.0.0.zip"
                             },
                             "c:\\cfn\\scripts\\Unzip-Archive.ps1": {
-                                "source": "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/microsoft-utilities/scripts/Unzip-Archive.ps1"
+                                "source": "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/submodules/quickstart-microsoft-utilities/scripts/Unzip-Archive.ps1"
                             }
                         },
                         "services": {
