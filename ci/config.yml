@@ -12,6 +12,7 @@ global:
     - eu-west-1
     - sa-east-1
     - us-east-1
+    - us-east-2
     - us-west-1
     - us-west-2
   reporting: true
@@ -28,6 +29,7 @@ tests:
       - eu-west-1
     #  - sa-east-1 NAT Gateway not available
       - us-east-1
+      - us-east-2
       - us-west-1
       - us-west-2
     template_file: Template_1_AD_2012R2.template
@@ -43,6 +45,7 @@ tests:
       - eu-west-1
     #  - sa-east-1 NAT Gateway not available
       - us-east-1
+      - us-east-2
       - us-west-1
       - us-west-2
     template_file: Template_2_AD_2012R2.template
