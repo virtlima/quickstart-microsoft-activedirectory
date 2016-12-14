@@ -131,6 +131,10 @@
                 "AWSNATHVM": "ami-53371f30",
                 "WS2012R2": "ami-9fe7d9fc"
             },
+            "ca-central-1": {
+                "AWSNATHVM": "ami-32f14356",
+                "WS2012R2": "ami-f57fcd91"
+            },
             "eu-central-1": {
                 "AWSNATHVM": "ami-5825cd37",
                 "WS2012R2": "ami-21cb0f4e"
@@ -138,6 +142,10 @@
             "eu-west-1": {
                 "AWSNATHVM": "ami-a8dd45db",
                 "WS2012R2": "ami-95d984e6"
+            },
+            "eu-west-2": {
+                "AWSNATHVM": "ami-6b4d470f",
+                "WS2012R2": "ami-bb353fdf"
             },
             "sa-east-1": {
                 "AWSNATHVM": "ami-9336bcff",
