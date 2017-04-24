@@ -757,9 +757,11 @@
                                             "\\admin",
                                             "',",
                                             "(ConvertTo-SecureString ",
+                                            "'",
                                             {
                                                 "Ref": "DomainAdminPassword"
                                             },
+                                            "'",
                                             " -AsPlainText -Force))) ",
                                             "-Restart\""
                                         ]
@@ -1003,9 +1005,11 @@
                                             "\\admin",
                                             "',",
                                             "(ConvertTo-SecureString ",
+                                            "'",
                                             {
                                                 "Ref": "DomainAdminPassword"
                                             },
+                                            "'",
                                             " -AsPlainText -Force))) ",
                                             "-Restart\""
                                         ]
