@@ -896,9 +896,11 @@
                                             },
                                             " ",
                                             "-SafeModeAdministratorPassword (ConvertTo-SecureString ",
+                                            "'",
                                             {
                                                 "Ref": "DomainAdminPassword"
                                             },
+                                            "'",
                                             " -AsPlainText -Force) ",
                                             "-DomainMode Win2012R2 ",
                                             "-DomainNetbiosName ",
@@ -947,9 +949,11 @@
                                             },
                                             " ",
                                             "-AccountPassword (ConvertTo-SecureString ",
+                                            "'",
                                             {
                                                 "Ref": "DomainAdminPassword"
                                             },
+                                            "'",
                                             " -AsPlainText -Force) ",
                                             "-Enabled $true ",
                                             "-PasswordNeverExpires $true\""
@@ -1087,9 +1091,11 @@
                                                 "Ref": "DomainAdminUser"
                                             },
                                             " -Password ",
+                                            "'",
                                             {
                                                 "Ref": "DomainAdminPassword"
                                             },
+                                            "'",
                                             " -DomainDNSName ",
                                             {
                                                 "Ref": "DomainDNSName"
@@ -1362,9 +1368,11 @@
                                             },
                                             "',",
                                             "(ConvertTo-SecureString ",
+                                            "'",
                                             {
                                                 "Ref": "DomainAdminPassword"
                                             },
+                                            "'",
                                             " -AsPlainText -Force))) ",
                                             "-Restart\""
                                         ]
@@ -1408,15 +1416,19 @@
                                             },
                                             "',",
                                             "(ConvertTo-SecureString ",
+                                            "'",
                                             {
                                                 "Ref": "DomainAdminPassword"
                                             },
+                                            "'",
                                             " -AsPlainText -Force))) ",
                                             "-SafeModeAdministratorPassword ",
                                             "(ConvertTo-SecureString ",
+                                            "'",
                                             {
                                                 "Ref": "DomainAdminPassword"
                                             },
+                                            "'",
                                             " -AsPlainText -Force) ",
                                             "-Confirm:$false -Force\""
                                         ]
@@ -1438,9 +1450,11 @@
                                                 "Ref": "DomainAdminUser"
                                             },
                                             " -Password ",
+                                            "'",
                                             {
                                                 "Ref": "DomainAdminPassword"
                                             },
+                                            "'",
                                             " -DomainDNSName ",
                                             {
                                                 "Ref": "DomainDNSName"
@@ -1504,9 +1518,11 @@
                                             },
                                             "',",
                                             "(ConvertTo-SecureString ",
+                                            "'",
                                             {
                                                 "Ref": "DomainAdminPassword"
                                             },
+                                            "'",
                                             " -AsPlainText -Force))) ",
                                             "\""
                                         ]
@@ -1738,9 +1754,11 @@
                                             },
                                             "',",
                                             "(ConvertTo-SecureString ",
+                                            "'",
                                             {
                                                 "Ref": "DomainAdminPassword"
                                             },
+                                            "'",
                                             " -AsPlainText -Force))) ",
                                             "-Restart\""
                                         ]
@@ -2007,9 +2025,11 @@
                                             },
                                             "',",
                                             "(ConvertTo-SecureString ",
+                                            "'",
                                             {
                                                 "Ref": "DomainAdminPassword"
                                             },
+                                            "'",
                                             " -AsPlainText -Force))) ",
                                             "-Restart\""
                                         ]
