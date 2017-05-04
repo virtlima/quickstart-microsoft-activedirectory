@@ -299,10 +299,10 @@
             "Type": "String"
         },
         "QSS3KeyPrefix": {
-            "AllowedPattern": "^[0-9a-zA-Z-]+(/[0-9a-zA-Z-]+)*$",
-            "ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/). It cannot start or end with forward slash (/) because they are automatically appended.",
-            "Default": "microsoft/activedirectory/latest",
-            "Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/). It cannot start or end with forward slash (/) because they are automatically appended.",
+            "AllowedPattern": "^[0-9a-zA-Z-/]*$",
+            "ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).",
+            "Default": "microsoft/activedirectory/latest/",
+            "Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).",
             "Type": "String"
         },
         "RDGW1InstanceType": {
@@ -447,32 +447,32 @@
             }
         }
     },
+    "Conditions": {
+        "GovCloudCondition": {
+            "Fn::Equals": [
+                {
+                    "Ref": "AWS::Region"
+                },
+                "us-gov-west-1"
+            ]
+        }
+    },
     "Resources": {
         "VPCStack": {
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "TemplateURL": {
-                    "Fn::Join": [
-                        "/",
-                        [
-                            {
-                                "Fn::FindInMap": [
-                                    "AWSInfoRegionMap",
-                                    {
-                                        "Ref": "AWS::Region"
-                                    },
-                                    "QuickStartS3URL"
+                    "Fn::Sub": [
+                        "https://${QSS3BucketName}.${S3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-aws-vpc/templates/aws-vpc.template",
+                        {
+                            "S3Region": {
+                                "Fn::If": [
+                                    "GovCloudCondition",
+                                    "s3-us-gov-west-1",
+                                    "s3"
                                 ]
-                            },
-                            {
-                                "Ref": "QSS3BucketName"
-                            },
-                            {
-                                "Ref": "QSS3KeyPrefix"
-                            },
-                            "submodules/quickstart-aws-vpc",
-                            "templates/aws-vpc.template"
-                        ]
+                            }
+                        }
                     ]
                 },
                 "Parameters": {
@@ -514,26 +514,17 @@
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "TemplateURL": {
-                    "Fn::Join": [
-                        "/",
-                        [
-                            {
-                                "Fn::FindInMap": [
-                                    "AWSInfoRegionMap",
-                                    {
-                                        "Ref": "AWS::Region"
-                                    },
-                                    "QuickStartS3URL"
+                    "Fn::Sub": [
+                        "https://${QSS3BucketName}.${S3Region}.amazonaws.com/${QSS3KeyPrefix}templates/ad-2012r2-1.template",
+                        {
+                            "S3Region": {
+                                "Fn::If": [
+                                    "GovCloudCondition",
+                                    "s3-us-gov-west-1",
+                                    "s3"
                                 ]
-                            },
-                            {
-                                "Ref": "QSS3BucketName"
-                            },
-                            {
-                                "Ref": "QSS3KeyPrefix"
-                            },
-                            "templates/ad-2012r2-1.template"
-                        ]
+                            }
+                        }
                     ]
                 },
                 "Parameters": {
@@ -620,27 +611,17 @@
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "TemplateURL": {
-                    "Fn::Join": [
-                        "/",
-                        [
-                            {
-                                "Fn::FindInMap": [
-                                    "AWSInfoRegionMap",
-                                    {
-                                        "Ref": "AWS::Region"
-                                    },
-                                    "QuickStartS3URL"
+                    "Fn::Sub": [
+                        "https://${QSS3BucketName}.${S3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-microsoft-rdgateway/templates/rdgw-domain.template",
+                        {
+                            "S3Region": {
+                                "Fn::If": [
+                                    "GovCloudCondition",
+                                    "s3-us-gov-west-1",
+                                    "s3"
                                 ]
-                            },
-                            {
-                                "Ref": "QSS3BucketName"
-                            },
-                            {
-                                "Ref": "QSS3KeyPrefix"
-                            },
-                            "submodules/quickstart-microsoft-rdgateway",
-                            "templates/rdgw-domain.template"
-                        ]
+                            }
+                        }
                     ]
                 },
                 "Parameters": {
@@ -687,15 +668,7 @@
                         "Ref": "QSS3BucketName"
                     },
                     "QSS3KeyPrefix": {
-                        "Fn::Join": [
-                            "/",
-                            [
-                                {
-                                    "Ref": "QSS3KeyPrefix"
-                                },
-                                "submodules/quickstart-microsoft-rdgateway"
-                            ]
-                        ]
+                        "Fn::Sub": "${QSS3KeyPrefix}submodules/quickstart-microsoft-rdgateway/"
                     },
                     "RDGW1InstanceType": {
                         "Ref": "RDGW1InstanceType"
