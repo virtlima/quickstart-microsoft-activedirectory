@@ -190,16 +190,6 @@
             }
         }
     },
-    "Conditions": {
-        "GovCloudCondition": {
-            "Fn::Equals": [
-                {
-                    "Ref": "AWS::Region"
-                },
-                "us-gov-west-1"
-            ]
-        }
-    },
     "Resources": {
         "MicrosoftAD": {
             "Type": "AWS::DirectoryService::MicrosoftAD",

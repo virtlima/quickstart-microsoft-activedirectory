@@ -219,16 +219,6 @@
             }
         }
     },
-    "Conditions": {
-        "GovCloudCondition": {
-            "Fn::Equals": [
-                {
-                    "Ref": "AWS::Region"
-                },
-                "us-gov-west-1"
-            ]
-        }
-    },
     "Resources": {
         "DHCPOptions": {
             "Type": "AWS::EC2::DHCPOptions",
