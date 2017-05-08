@@ -290,39 +290,6 @@
         }
     },
     "Resources": {
-        "DHCPOptions": {
-            "Type": "AWS::EC2::DHCPOptions",
-            "Properties": {
-                "DomainNameServers": [
-                    "AmazonProvidedDNS"
-                ],
-                "NtpServers": [
-                    {
-                        "Ref": "ADServer1PrivateIP"
-                    }
-                ],
-                "NetbiosNameServers": [
-                    {
-                        "Ref": "ADServer1PrivateIP"
-                    },
-                    {
-                        "Ref": "ADServer2PrivateIP"
-                    }
-                ],
-                "NetbiosNodeType": "2"
-            }
-        },
-        "VPCDHCPOptionsAssociation": {
-            "Type": "AWS::EC2::VPCDHCPOptionsAssociation",
-            "Properties": {
-                "VpcId": {
-                    "Ref": "VPCID"
-                },
-                "DhcpOptionsId": {
-                    "Ref": "DHCPOptions"
-                }
-            }
-        },
         "DomainController1": {
             "Type": "AWS::EC2::Instance",
             "Metadata": {

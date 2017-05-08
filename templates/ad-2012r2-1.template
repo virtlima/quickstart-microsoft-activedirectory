@@ -374,19 +374,15 @@
     "Resources": {
         "DHCPOptions": {
             "Type": "AWS::EC2::DHCPOptions",
+            "DependsOn": [
+                "DomainController1WaitCondition",
+                "DomainController2WaitCondition"
+            ],
             "Properties": {
                 "DomainName": {
                     "Ref": "DomainDNSName"
                 },
                 "DomainNameServers": [
-                    "AmazonProvidedDNS"
-                ],
-                "NtpServers": [
-                    {
-                        "Ref": "ADServer1PrivateIP"
-                    }
-                ],
-                "NetbiosNameServers": [
                     {
                         "Ref": "ADServer1PrivateIP"
                     },
@@ -394,7 +390,6 @@
                         "Ref": "ADServer2PrivateIP"
                     }
                 ],
-                "NetbiosNodeType": "2",
                 "Tags": [
                     {
                         "Key": "Domain",
