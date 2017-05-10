@@ -122,7 +122,7 @@
                     "default": "Quick Start S3 Key Prefix"
                 },
                 "RDGWInstanceType": {
-                    "default": "Remote Desktop Gateway 1 Instance Type"
+                    "default": "Remote Desktop Gateway Instance Type"
                 },
                 "RDGWCIDR": {
                     "default": "Allowed Remote Desktop Gateway External Access CIDR"
