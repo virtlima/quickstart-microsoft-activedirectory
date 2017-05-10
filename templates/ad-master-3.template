@@ -367,18 +367,6 @@
                     ]
                 },
                 "Parameters": {
-                    "ADServer1PrivateIP": {
-                        "Fn::GetAtt": [
-                            "ADStack",
-                            "Outputs.ADServer1PrivateIP"
-                        ]
-                    },
-                    "ADServer2PrivateIP": {
-                        "Fn::GetAtt": [
-                            "ADStack",
-                            "Outputs.ADServer2PrivateIP"
-                        ]
-                    },
                     "DomainAdminPassword": {
                         "Ref": "DomainAdminPassword"
                     },
