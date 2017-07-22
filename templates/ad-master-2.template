@@ -55,6 +55,12 @@
                 }
             ],
             "ParameterLabels": {
+                "AdminPassword": {
+                    "default": "Admin Password"
+                },
+                "AdminUser": {
+                    "default": "Admin User"
+                },
                 "ADServer1InstanceType": {
                     "default": "Domain Controller 1 Instance Type"
                 },
@@ -76,17 +82,8 @@
                 "AvailabilityZones": {
                     "default": "Availability Zones"
                 },
-                "DomainAdminPassword": {
-                    "default": "Domain Admin Password"
-                },
-                "DomainAdminUser": {
-                    "default": "Domain Admin User Name"
-                },
                 "DomainDNSName": {
                     "default": "Domain DNS Name"
-                },
-                "DomainNetBIOSName": {
-                    "default": "Domain NetBIOS Name"
                 },
                 "KeyPairName": {
                     "default": "Key Pair Name"
@@ -117,9 +114,6 @@
                 },
                 "RDGWCIDR": {
                     "default": "Allowed Remote Desktop Gateway External Access CIDR"
-                },
-                "RestoreModePassword": {
-                    "default": "Restore Mode Password"
                 },
                 "VPCCIDR": {
                     "default": "VPC CIDR"
