@@ -92,7 +92,7 @@
             "Default": "example.com",
             "MinLength": "3",
             "MaxLength": "25",
-            "AllowedPattern": "[a-zA-Z0-9]+\\..+"
+            "AllowedPattern": "[a-zA-Z0-9\\-]+\\..+"
         },
         "DomainNetBIOSName": {
             "Description": "NetBIOS name of the domain (upto 15 characters) for users of earlier versions of Windows e.g. EXAMPLE",
@@ -100,7 +100,7 @@
             "Default": "example",
             "MinLength": "1",
             "MaxLength": "15",
-            "AllowedPattern": "[a-zA-Z0-9]+"
+            "AllowedPattern": "[a-zA-Z0-9\\-]+"
         },
         "DomainAdminPassword": {
             "Description": "Password for the domain admin user. Must be at least 8 characters containing letters, numbers and symbols",
