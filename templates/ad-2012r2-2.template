@@ -112,7 +112,7 @@
             "Type": "String"
         },
         "ADServer1NetBIOSName": {
-            "AllowedPattern": "[a-zA-Z0-9]+",
+            "AllowedPattern": "[a-zA-Z0-9\\-]+",
             "Default": "DC1",
             "Description": "NetBIOS name of the 1st AD Server (upto 15 characters)",
             "MaxLength": "15",
@@ -140,7 +140,7 @@
             "Type": "String"
         },
         "ADServer2NetBIOSName": {
-            "AllowedPattern": "[a-zA-Z0-9]+",
+            "AllowedPattern": "[a-zA-Z0-9\\-]+",
             "Default": "DC2",
             "Description": "NetBIOS name of the 2nd AD Server (upto 15 characters)",
             "MaxLength": "15",

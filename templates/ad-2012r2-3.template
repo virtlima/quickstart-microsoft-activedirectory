@@ -97,7 +97,7 @@
             "Default": "example.com",
             "MinLength": "3",
             "MaxLength": "25",
-            "AllowedPattern": "[a-zA-Z0-9]+\\..+"
+            "AllowedPattern": "[a-zA-Z0-9\\-]+\\..+"
         },
         "DomainNetBIOSName": {
             "Description": "NetBIOS name of the domain (upto 15 characters) for users of earlier versions of Windows e.g. EXAMPLE",
@@ -105,7 +105,7 @@
             "Default": "example",
             "MinLength": "1",
             "MaxLength": "15",
-            "AllowedPattern": "[a-zA-Z0-9]+"
+            "AllowedPattern": "[a-zA-Z0-9\\-]+"
         },
         "PrivateSubnet1CIDR": {
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
