@@ -26,7 +26,6 @@ tests:
       - ap-southeast-1
       - ca-central-1
       - eu-west-1
-      - sa-east-1
       - us-east-2
       - us-west-2
     template_file: Template_1_AD_2012R2.template
