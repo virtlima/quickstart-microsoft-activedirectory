@@ -153,64 +153,64 @@
     "Mappings": {
         "AWSAMIRegionMap": {
             "AMI": {
-                "AWSNATHVM": "amzn-ami-vpc-nat-hvm-2017.09.1.20171120-x86_64-ebs",
-                "WS2012R2": "Windows_Server-2012-R2_RTM-English-64Bit-Base-2017.12.13"
+                "AWSNATHVM": "amzn-ami-vpc-nat-hvm-2017.09.1.20180108-x86_64-ebs",
+                "WS2012R2": "Windows_Server-2012-R2_RTM-English-64Bit-Base-2018.01.05"
             },
             "ap-northeast-1": {
-                "AWSNATHVM": "ami-6a9d2f0c",
-                "WS2012R2": "ami-e95ad78f"
+                "AWSNATHVM": "ami-6bc45d0d",
+                "WS2012R2": "ami-031c8365"
             },
             "ap-northeast-2": {
-                "AWSNATHVM": "ami-c5882fab",
-                "WS2012R2": "ami-a83492c6"
+                "AWSNATHVM": "ami-42b8182c",
+                "WS2012R2": "ami-5cdc7c32"
             },
             "ap-south-1": {
-                "AWSNATHVM": "ami-61c38c0e",
-                "WS2012R2": "ami-34fab25b"
+                "AWSNATHVM": "ami-ffc49090",
+                "WS2012R2": "ami-8291c5ed"
             },
             "ap-southeast-1": {
-                "AWSNATHVM": "ami-0e3e696d",
-                "WS2012R2": "ami-4bcaaa37"
+                "AWSNATHVM": "ami-839cecff",
+                "WS2012R2": "ami-8ba0d1f7"
             },
             "ap-southeast-2": {
-                "AWSNATHVM": "ami-3348a351",
-                "WS2012R2": "ami-21e31543"
+                "AWSNATHVM": "ami-fda5589f",
+                "WS2012R2": "ami-3c0dff5e"
             },
             "ca-central-1": {
-                "AWSNATHVM": "ami-909e25f4",
-                "WS2012R2": "ami-21b30945"
+                "AWSNATHVM": "ami-62fc7906",
+                "WS2012R2": "ami-f3ed6897"
             },
             "eu-central-1": {
-                "AWSNATHVM": "ami-7d2ba812",
-                "WS2012R2": "ami-8c57dce3"
+                "AWSNATHVM": "ami-96c85af9",
+                "WS2012R2": "ami-9650c3f9"
             },
             "eu-west-1": {
-                "AWSNATHVM": "ami-2d912554",
-                "WS2012R2": "ami-811a9ef8"
+                "AWSNATHVM": "ami-4587173c",
+                "WS2012R2": "ami-5520b62c"
             },
             "eu-west-2": {
-                "AWSNATHVM": "ami-e5d6c981",
-                "WS2012R2": "ami-217b6245"
+                "AWSNATHVM": "ami-ce8d95aa",
+                "WS2012R2": "ami-29e0f84d"
             },
             "sa-east-1": {
-                "AWSNATHVM": "ami-dc6e2bb0",
-                "WS2012R2": "ami-eb91d787"
+                "AWSNATHVM": "ami-9e2664f2",
+                "WS2012R2": "ami-e2e5a68e"
             },
             "us-east-1": {
-                "AWSNATHVM": "ami-25ef665f",
-                "WS2012R2": "ami-e443379e"
+                "AWSNATHVM": "ami-01623d7b",
+                "WS2012R2": "ami-ce792ab4"
             },
             "us-east-2": {
-                "AWSNATHVM": "ami-e2e4ca87",
-                "WS2012R2": "ami-c24e66a7"
+                "AWSNATHVM": "ami-d4a883b1",
+                "WS2012R2": "ami-fccce799"
             },
             "us-west-1": {
-                "AWSNATHVM": "ami-e71d2587",
-                "WS2012R2": "ami-fc2e2a9c"
+                "AWSNATHVM": "ami-4fefef2f",
+                "WS2012R2": "ami-431f1f23"
             },
             "us-west-2": {
-                "AWSNATHVM": "ami-38469440",
-                "WS2012R2": "ami-aca706d4"
+                "AWSNATHVM": "ami-d3cc78ab",
+                "WS2012R2": "ami-2ea61356"
             }
         }
     },
