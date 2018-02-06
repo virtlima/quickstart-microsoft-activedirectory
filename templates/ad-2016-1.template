@@ -24,8 +24,6 @@
                         "default": "Amazon EC2 Configuration"
                     },
                     "Parameters": [
-                        "ADKeyAlias",
-                        "ADKeyDescription",
                         "KeyPairName",
                         "ADServer1InstanceType",
                         "ADServer1NetBIOSName",
@@ -128,21 +126,6 @@
         }
     },
     "Parameters": {
-        "ADKeyAlias": {
-            "AllowedPattern": "[-a-zA-Z0-9/_]+",
-            "ConstraintDescription": "please specify a valid alias.",
-            "Description": "Please specify the alias for the KMS CMK: maximum = 256 characters, use alphanumeric and '_-/' characters.",
-            "MaxLength": "256",
-            "MinLength": "1",
-            "Type": "String"
-        },
-        "ADKeyDescription": {
-            "ConstraintDescription": "please specify a valid description.",
-            "Description": "Please specify the description for the KMS CMK: maximum = 8192 characters.",
-            "MaxLength": "8192",
-            "MinLength": "1",
-            "Type": "String"
-        },
         "ADServer1InstanceType": {
             "AllowedValues": [
                 "t2.large",
@@ -292,7 +275,6 @@
             "AllowedPattern": "(?=^.{6,255}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*",
             "Description": "Password for a separate Administrator account when the domain controller is in Restore Mode. Must be at least 8 characters containing letters, numbers and symbols",
             "MaxLength": "32",
-            "Default": "R00tshell9!",
             "MinLength": "8",
             "NoEcho": "True",
             "Type": "String"
@@ -334,7 +316,7 @@
     "Mappings": {
         "AWSAMIRegionMap": {
             "AMI": {
-                "WS2016": "Windows_Server-2012-R2_RTM-English-64Bit-Base-2018.01.12"
+                "WS2016": "Windows_Server-2016-English-Full-Base-2018.01.12"
             },
             "ap-northeast-1": {
                 "WS2016": "ami-157fe573"
@@ -394,72 +376,6 @@
         }
     },
     "Resources": {
-        "ADPWKey": {
-            "Type": "AWS::KMS::Key",
-            "Properties": {
-                "Description": {
-                    "Ref": "ADKeyDescription"
-                },
-                "KeyPolicy": {
-                    "Id": "ad-kms-key-policy",
-                    "Statement": [
-                        {
-                            "Action": [
-                                "kms:Create*",
-                                "kms:Describe*",
-                                "kms:Enable*",
-                                "kms:List*",
-                                "kms:Put*",
-                                "kms:Update*",
-                                "kms:Revoke*",
-                                "kms:Disable*",
-                                "kms:Get*",
-                                "kms:Delete*",
-                                "kms:ScheduleKeyDeletion",
-                                "kms:CancelKeyDeletion"
-                            ],
-                            "Effect": "Allow",
-                            "Principal": {
-                                "AWS": {
-                                    "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:root"
-                                }
-                            },
-                            "Resource": "*",
-                            "Sid": "Allow administration of the key"
-                        },
-                        {
-                            "Action": [
-                                "kms:Encrypt",
-                                "kms:Decrypt",
-                                "kms:ReEncrypt*",
-                                "kms:GenerateDataKey*",
-                                "kms:DescribeKey"
-                            ],
-                            "Effect": "Allow",
-                            "Principal": {
-                                "AWS": {
-                                    "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:root"
-                                }
-                            },
-                            "Resource": "*",
-                            "Sid": "Allow use of the key"
-                        }
-                    ],
-                    "Version": "2012-10-17"
-                }
-            }
-        },
-        "ADKAlias": {
-            "Type": "AWS::KMS::Alias",
-            "Properties": {
-                "AliasName": {
-                    "Fn::Sub": "alias/${ADKeyAlias}"
-                },
-                "TargetKeyId": {
-                    "Ref": "ADPWKey"
-                }
-            }
-        },
         "DHCPOptions": {
             "Type": "AWS::EC2::DHCPOptions",
             "DependsOn": [
@@ -633,28 +549,6 @@
                 "Path": "/"
             }
         },
-        "document": {
-            "Type": "AWS::SSM::Document",
-            "Properties": {
-                "Content": {
-                    "schemaVersion": "1.2",
-                    "description": "Rename Default Site.",
-                    "parameters": {},
-                    "runtimeConfig": {
-                        "aws:runPowerShellScript": {
-                            "properties": [
-                                {
-                                    "id": "0.aws:runPowerShellScript",
-                                    "runCommand": [
-                                        "Get-ADObject -SearchBase (Get-ADRootDSE).ConfigurationNamingContext -filter {Name -eq 'Default-First-Site-Name'} | Rename-ADObject -NewName AZ1"
-                                    ]
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
         "ADUsername": {
          "Type": "AWS::SSM::Parameter",
          "Properties": {
@@ -667,33 +561,11 @@
         "ADPassword": {
          "Type": "AWS::SSM::Parameter",
          "Properties": {
-            "Name": "password",
+            "Name": "ad-password",
             "Type": "String",
             "Value": {"Ref": "DomainAdminPassword"},
             "Description": "SSM Parameter for AD Password."
          }
-        },
-        "document2": {
-            "Type": "AWS::SSM::Document",
-            "Properties": {
-                "Content": {
-                    "schemaVersion": "1.2",
-                    "description": "Rename Default Site.",
-                    "parameters": {},
-                    "runtimeConfig": {
-                        "aws:runPowerShellScript": {
-                            "properties": [
-                                {
-                                    "id": "0.aws:runPowerShellScript",
-                                    "runCommand": [
-                                        "New-Item c:\\cfn\\scripts\\new_file.txt -type file"
-                                    ]
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
         },
         "DomainController1": {
             "Type": "AWS::EC2::Instance",
@@ -866,6 +738,23 @@
                                 },
                                 "authentication": "S3AccessCreds"
                             },
+                            "c:\\cfn\\scripts\\Install-ADDS-Forest.ps1": {
+                                "source": {
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}scripts/Install-ADDS-Forest.ps1",
+                                        {
+                                            "QSS3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authentication": "S3AccessCreds"
+                            },
                             "c:\\cfn\\modules\\xAdcsDeployment_0.1.0.0.zip": {
                                 "source": {
                                     "Fn::Sub": [
@@ -998,28 +887,18 @@
                                     "Fn::Join": [
                                         "",
                                         [
-                                            "powershell.exe -Command ",
-                                            "\"Install-ADDSForest -DomainName ",
+                                            "powershell.exe -Command c:\\cfn\\scripts\\Install-ADDS-Forest.ps1 -DomainNetBIOSName ",
+                                            {
+                                                "Ref": "ADServer1NetBIOSName"
+                                            },
+                                            " -DomainAdminUser ",
+                                            {
+                                                "Ref": "DomainAdminUser"
+                                            },
+                                            " -DomainDNSName ",
                                             {
                                                 "Ref": "DomainDNSName"
-                                            },
-                                            " ",
-                                            "-SafeModeAdministratorPassword (ConvertTo-SecureString ",
-                                            "'",
-                                            {
-                                                "Ref": "DomainAdminPassword"
-                                            },
-                                            "'",
-                                            " -AsPlainText -Force) ",
-                                            "-DomainMode Default ",
-                                            "-DomainNetbiosName ",
-                                            {
-                                                "Ref": "DomainNetBIOSName"
-                                            },
-                                            " ",
-                                            "-ForestMode Default ",
-                                            "-Confirm:$false ",
-                                            "-Force\""
+                                            }
                                         ]
                                     ]
                                 },
@@ -1230,12 +1109,6 @@
                                             {
                                                 "Ref": "DomainAdminUser"
                                             },
-                                            " -Password ",
-                                            "'",
-                                            {
-                                                "Ref": "DomainAdminPassword"
-                                            },
-                                            "'",
                                             " -DomainDNSName ",
                                             {
                                                 "Ref": "DomainDNSName"
@@ -1444,6 +1317,74 @@
                                 },
                                 "authentication": "S3AccessCreds"
                             },
+                            "c:\\cfn\\scripts\\Install-ADDS-DC.ps1": {
+                                "source": {
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}scripts/Install-ADDS-DC.ps1",
+                                        {
+                                            "QSS3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authentication": "S3AccessCreds"
+                            },
+                            "c:\\cfn\\scripts\\Add-DNS-Entry.ps1": {
+                                "source": {
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}scripts/Add-DNS-Entry.ps1",
+                                        {
+                                            "QSS3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authentication": "S3AccessCreds"
+                            },
+                            "c:\\cfn\\scripts\\Join-AD-Domain.ps1": {
+                                "source": {
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}scripts/Join-AD-Domain.ps1",
+                                        {
+                                            "QSS3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authentication": "S3AccessCreds"
+                            },
+                            "c:\\cfn\\scripts\\Add-DC.ps1": {
+                                "source": {
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}scripts/Add-DC.ps1",
+                                        {
+                                            "QSS3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authentication": "S3AccessCreds"
+                            },
                             "c:\\cfn\\modules\\xAdcsDeployment_0.1.0.0.zip": {
                                 "source": {
                                     "Fn::Sub": [
@@ -1567,29 +1508,18 @@
                                     "Fn::Join": [
                                         "",
                                         [
-                                            "powershell.exe -Command \"",
-                                            "Add-Computer -DomainName ",
-                                            {
-                                                "Ref": "DomainDNSName"
-                                            },
-                                            " -Credential ",
-                                            "(New-Object System.Management.Automation.PSCredential('",
+                                            "powershell.exe -Command c:\\cfn\\scripts\\Join-AD-Domain.ps1 -DomainNetBIOSName ",
                                             {
                                                 "Ref": "DomainNetBIOSName"
                                             },
-                                            "\\",
+                                            " -DomainAdminUser ",
                                             {
                                                 "Ref": "DomainAdminUser"
                                             },
-                                            "',",
-                                            "(ConvertTo-SecureString ",
-                                            "'",
+                                            " -DomainDNSName ",
                                             {
-                                                "Ref": "DomainAdminPassword"
-                                            },
-                                            "'",
-                                            " -AsPlainText -Force))) ",
-                                            "-Restart\""
+                                                "Ref": "DomainDNSName"
+                                            }
                                         ]
                                     ]
                                 },
@@ -1615,37 +1545,18 @@
                                     "Fn::Join": [
                                         "",
                                         [
-                                            "powershell.exe -Command \"",
-                                            "Install-ADDSDomainController -InstallDns -DomainName ",
+                                            "powershell.exe -Command c:\\cfn\\scripts\\Install-ADDS-DC.ps1 -DomainNetBIOSName ",
                                             {
-                                                "Ref": "DomainDNSName"
+                                                "Ref": "ADServer1NetBIOSName"
                                             },
-                                            " -Credential ",
-                                            "(New-Object System.Management.Automation.PSCredential('",
-                                            {
-                                                "Ref": "DomainNetBIOSName"
-                                            },
-                                            "\\",
+                                            " -DomainAdminUser ",
                                             {
                                                 "Ref": "DomainAdminUser"
                                             },
-                                            "',",
-                                            "(ConvertTo-SecureString ",
-                                            "'",
+                                            " -DomainDNSName ",
                                             {
-                                                "Ref": "DomainAdminPassword"
-                                            },
-                                            "'",
-                                            " -AsPlainText -Force))) ",
-                                            "-SafeModeAdministratorPassword ",
-                                            "(ConvertTo-SecureString ",
-                                            "'",
-                                            {
-                                                "Ref": "DomainAdminPassword"
-                                            },
-                                            "'",
-                                            " -AsPlainText -Force) ",
-                                            "-Confirm:$false -Force\""
+                                                "Ref": "DomainDNSName"
+                                            }
                                         ]
                                     ]
                                 },
@@ -1664,12 +1575,6 @@
                                             {
                                                 "Ref": "DomainAdminUser"
                                             },
-                                            " -Password ",
-                                            "'",
-                                            {
-                                                "Ref": "DomainAdminPassword"
-                                            },
-                                            "'",
                                             " -DomainDNSName ",
                                             {
                                                 "Ref": "DomainDNSName"
@@ -1729,42 +1634,30 @@
                                     "Fn::Join": [
                                         "",
                                         [
-                                            "powershell.exe -Command ",
-                                            "\"Invoke-Command -Scriptblock{ ",
-                                            "Get-NetAdapter | Set-DnsClientServerAddress -ServerAddresses ",
-                                            {
-                                                "Ref": "ADServer2PrivateIP"
-                                            },
-                                            ",",
-                                            {
-                                                "Ref": "ADServer1PrivateIP"
-                                            },
-                                            " } -ComputerName ",
+                                            "powershell.exe -Command c:\\cfn\\scripts\\Add-DNS-Entry.ps1 -ADServer1NetBIOSName ",
                                             {
                                                 "Ref": "ADServer1NetBIOSName"
                                             },
-                                            ".",
-                                            {
-                                                "Ref": "DomainDNSName"
-                                            },
-                                            " -Credential ",
-                                            "(New-Object System.Management.Automation.PSCredential('",
-                                            {
-                                                "Ref": "DomainNetBIOSName"
-                                            },
-                                            "\\",
+                                            " -DomainAdminUser ",
                                             {
                                                 "Ref": "DomainAdminUser"
                                             },
-                                            "',",
-                                            "(ConvertTo-SecureString ",
-                                            "'",
+                                            " -DomainDNSName ",
                                             {
-                                                "Ref": "DomainAdminPassword"
+                                                "Ref": "DomainDNSName"
                                             },
-                                            "'",
-                                            " -AsPlainText -Force))) ",
-                                            "\""
+                                            " -DomainNetBIOSName ",
+                                            {
+                                                "Ref": "DomainNetBIOSName"
+                                            },
+                                            " -ADServer1PrivateIP ",
+                                            {
+                                                "Ref": "ADServer1PrivateIP"
+                                            },
+                                            " -ADServer2PrivateIP ",
+                                            {
+                                                "Ref": "ADServer2PrivateIP"
+                                            }
                                         ]
                                     ]
                                 },
@@ -2789,23 +2682,6 @@
                 "Ref": "DomainMemberSG"
             },
             "Description": "Domain Member Security Group ID"
-        },
-        "ADKeyARN": {
-            "Description": "Amazon Resource Name (ARN) of the custom KMS AD Key.",
-            "Export": {
-                "Name": {
-                    "Fn::Sub": "${AWS::StackName}-CMKARN"
-                }
-            },
-            "Value": {
-                "Fn::Sub": "arn:aws:kms:${AWS::Region}:${AWS::AccountId}:key/${ADPWKey}"
-            }
-        },
-        "ADKeyID": {
-            "Description": "ID of the custom KMS CMK created by your Active Directory password.",
-            "Value": {
-                "Ref": "ADPWKey"
-            }
         }
     }
 }
