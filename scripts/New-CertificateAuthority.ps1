@@ -4,9 +4,6 @@ param(
     $Username,
 
     [string]
-    $Password,
-
-    [string]
     $DomainDNSName
 )
 
@@ -16,7 +13,7 @@ param(
     https://gallery.technet.microsoft.com/scriptcenter/xAdcsDeployment-PowerShell-cc0622fa/file/126018/1/xAdcsDeployment_0.1.0.0.zip
     https://github.com/PowerShell/xAdcsDeployment
 #>
-
+$Password = (Get-SSMParameterValue -Names ad-password -WithDecryption $True).Parameters[0].Value
 $Pass = ConvertTo-SecureString $Password -AsPlainText -Force
 $Credential = New-Object System.Management.Automation.PSCredential -ArgumentList "$Username@$DomainDNSName", $Pass
 
@@ -73,7 +70,7 @@ Configuration CertificateAuthority {
         }  
     }   
 }  
-
+$secure = (Get-SSMParameterValue -Names ad-password -WithDecryption $True).Parameters[0].Value
 CertificateAuthority -ConfigurationData $ConfigurationData
 Start-DscConfiguration -Path .\CertificateAuthority -Wait -Verbose -Force
 Get-ChildItem .\CertificateAuthority *.mof -ErrorAction SilentlyContinue | Remove-Item -Confirm:$false -ErrorAction SilentlyContinue

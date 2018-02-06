@@ -6,9 +6,13 @@ param(
 
     [string[]]
     [Parameter(Mandatory=$true, Position=1)]
-    $Members
+    $Members,
+
+    [string]
+    [Parameter(Mandatory=$true, Position=2)]
+    $Server
 )
 
 $Groups | ForEach-Object{
-    Add-ADGroupMember -Identity $_ -Members $Members
+    Add-ADGroupMember -Identity $_ -Members $Members -Server $Server
 }
