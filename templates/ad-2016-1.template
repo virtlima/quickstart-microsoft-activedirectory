@@ -942,7 +942,7 @@
                                     "Fn::Join": [
                                         "",
                                         [
-                                            "powershell.exe -Command start-sleep -s 600"
+                                            "powershell.exe -Command start-sleep -s 300"
                                         ]
                                     ]
                                 }
@@ -1508,18 +1508,29 @@
                                     "Fn::Join": [
                                         "",
                                         [
-                                            "powershell.exe -Command c:\\cfn\\scripts\\Join-AD-Domain.ps1 -DomainNetBIOSName ",
+                                            "powershell.exe -Command \"",
+                                            "Add-Computer -DomainName ",
+                                            {
+                                                "Ref": "DomainDNSName"
+                                            },
+                                            " -Credential ",
+                                            "(New-Object System.Management.Automation.PSCredential('",
                                             {
                                                 "Ref": "DomainNetBIOSName"
                                             },
-                                            " -DomainAdminUser ",
+                                            "\\",
                                             {
                                                 "Ref": "DomainAdminUser"
                                             },
-                                            " -DomainDNSName ",
+                                            "',",
+                                            "(ConvertTo-SecureString ",
+                                            "'",
                                             {
-                                                "Ref": "DomainDNSName"
-                                            }
+                                                "Ref": "DomainAdminPassword"
+                                            },
+                                            "'",
+                                            " -AsPlainText -Force))) ",
+                                            "-Restart\""
                                         ]
                                     ]
                                 },
@@ -1545,18 +1556,37 @@
                                     "Fn::Join": [
                                         "",
                                         [
-                                            "powershell.exe -Command c:\\cfn\\scripts\\Install-ADDS-DC.ps1 -DomainNetBIOSName ",
+                                            "powershell.exe -Command \"",
+                                            "Install-ADDSDomainController -InstallDns -DomainName ",
                                             {
-                                                "Ref": "ADServer1NetBIOSName"
+                                                "Ref": "DomainDNSName"
                                             },
-                                            " -DomainAdminUser ",
+                                            " -Credential ",
+                                            "(New-Object System.Management.Automation.PSCredential('",
+                                            {
+                                                "Ref": "DomainNetBIOSName"
+                                            },
+                                            "\\",
                                             {
                                                 "Ref": "DomainAdminUser"
                                             },
-                                            " -DomainDNSName ",
+                                            "',",
+                                            "(ConvertTo-SecureString ",
+                                            "'",
                                             {
-                                                "Ref": "DomainDNSName"
-                                            }
+                                                "Ref": "DomainAdminPassword"
+                                            },
+                                            "'",
+                                            " -AsPlainText -Force))) ",
+                                            "-SafeModeAdministratorPassword ",
+                                            "(ConvertTo-SecureString ",
+                                            "'",
+                                            {
+                                                "Ref": "DomainAdminPassword"
+                                            },
+                                            "'",
+                                            " -AsPlainText -Force) ",
+                                            "-Confirm:$false -Force\""
                                         ]
                                     ]
                                 },
@@ -1575,6 +1605,12 @@
                                             {
                                                 "Ref": "DomainAdminUser"
                                             },
+                                            " -Password ",
+                                            "'",
+                                            {
+                                                "Ref": "DomainAdminPassword"
+                                            },
+                                            "'",
                                             " -DomainDNSName ",
                                             {
                                                 "Ref": "DomainDNSName"
@@ -1588,28 +1624,7 @@
                     },
                     "finalize": {
                         "commands": {
-                            "a-set-search-domain": {
-                                "command": {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-                                            "powershell.exe -Command c:\\cfn\\scripts\\Create-Search-Domain.ps1 -NetBiosName ",
-                                            {
-                                                "Ref": "ADServer2NetBIOSName"
-                                            },                                        
-                                            " -DomainDNSName ",
-                                            "'",
-                                            {
-                                                "Ref": "DomainDNSName"
-                                            },
-                                            "'"
-                                        ]
-
-                                    ]
-                                },
-                                "waitAfterCompletion": "120"
-                            },
-                            "b-update-dns-servers-dc2": {
+                            "a-update-dns-servers-dc2": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
@@ -1627,43 +1642,55 @@
                                         ]
                                     ]
                                 },
-                                "waitAfterCompletion": "30"
+                                "waitAfterCompletion": "0"
                             },
-                            "c-update-dns-servers-dc1": {
+                            "b-update-dns-servers-dc1": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
                                         [
-                                            "powershell.exe -Command c:\\cfn\\scripts\\Add-DNS-Entry.ps1 -ADServer1NetBIOSName ",
+                                            "powershell.exe -Command ",
+                                            "\"Invoke-Command -Scriptblock{ ",
+                                            "Get-NetAdapter | Set-DnsClientServerAddress -ServerAddresses ",
                                             {
-                                                "Ref": "ADServer1NetBIOSName"
+                                                "Ref": "ADServer2PrivateIP"
                                             },
-                                            " -DomainAdminUser ",
-                                            {
-                                                "Ref": "DomainAdminUser"
-                                            },
-                                            " -DomainDNSName ",
-                                            {
-                                                "Ref": "DomainDNSName"
-                                            },
-                                            " -DomainNetBIOSName ",
-                                            {
-                                                "Ref": "DomainNetBIOSName"
-                                            },
-                                            " -ADServer1PrivateIP ",
+                                            ",",
                                             {
                                                 "Ref": "ADServer1PrivateIP"
                                             },
-                                            " -ADServer2PrivateIP ",
+                                            " } -ComputerName ",
                                             {
-                                                "Ref": "ADServer2PrivateIP"
-                                            }
+                                                "Ref": "ADServer1NetBIOSName"
+                                            },
+                                            ".",
+                                            {
+                                                "Ref": "DomainDNSName"
+                                            },
+                                            " -Credential ",
+                                            "(New-Object System.Management.Automation.PSCredential('",
+                                            {
+                                                "Ref": "DomainNetBIOSName"
+                                            },
+                                            "\\",
+                                            {
+                                                "Ref": "DomainAdminUser"
+                                            },
+                                            "',",
+                                            "(ConvertTo-SecureString ",
+                                            "'",
+                                            {
+                                                "Ref": "DomainAdminPassword"
+                                            },
+                                            "'",
+                                            " -AsPlainText -Force))) ",
+                                            "\""
                                         ]
                                     ]
                                 },
                                 "waitAfterCompletion": "0"
                             },
-                            "d-signal-success": {
+                            "c-signal-success": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
