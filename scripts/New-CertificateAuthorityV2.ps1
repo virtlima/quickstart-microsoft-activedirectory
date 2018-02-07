@@ -69,10 +69,21 @@ Configuration CertificateAuthority {
             DependsOn = '[WindowsFeature]ADCS-Web-Enrollment','[xADCSCertificationAuthority]ADCS' 
         }  
     }   
-}  
-$secure = (Get-SSMParameterValue -Names ad-password -WithDecryption $True).Parameters[0].Value
-CertificateAuthority -ConfigurationData $ConfigurationData
-Start-DscConfiguration -Path .\CertificateAuthority -Wait -Verbose -Force
-Get-ChildItem .\CertificateAuthority *.mof -ErrorAction SilentlyContinue | Remove-Item -Confirm:$false -ErrorAction SilentlyContinue
+}
 
-Get-ChildItem C:\Windows\system32\CertSrv\CertEnroll *.crt | Copy-Item -Destination c:\inetpub\wwwroot\cert.crt
+try {
+    $ErrorActionPreference = "Stop"
+    Start-Transcript -Path C:\cfn\log\Install-ADDS-DC.ps1.txt -Append
+
+    $secure = (Get-SSMParameterValue -Names ad-password -WithDecryption $True).Parameters[0].Value
+    CertificateAuthority -ConfigurationData $ConfigurationData
+    Start-DscConfiguration -Path .\CertificateAuthority -Wait -Verbose -Force
+    Get-ChildItem .\CertificateAuthority *.mof -ErrorAction SilentlyContinue | Remove-Item -Confirm:$false -ErrorAction SilentlyContinue
+
+    Get-ChildItem C:\Windows\system32\CertSrv\CertEnroll *.crt | Copy-Item -Destination c:\inetpub\wwwroot\cert.crt
+
+}
+
+catch {
+    $_ | Write-AWSQuickStartException
+}
