@@ -13,10 +13,12 @@ try {
 
     $DomainAdminPassword = (Get-SSMParameterValue -Names ad-password -WithDecryption $True).Parameters[0].Value
     $DomainAdmin = $DomainNetBIOSName + "\" + $DomainAdminUser
-    Invoke-Command -Scriptblock{ 
-                    Get-NetAdapter | Set-DnsClientServerAddress -ServerAddresses $ADServer2PrivateIP, $ADServer1PrivateIP }
-                    -ComputerName $ADServer1NetBIOSName+"."+$DomainDNSName 
-                    -Credential (New-Object System.Management.Automation.PSCredential($DomainAdmin,(ConvertTo-SecureString $DomainAdminPassword -AsPlainText -Force)))
+    $FQDN = $ADServer1NetBIOSName+"."+$DomainDNSName
+    Invoke-Command -ComputerName $FQDN -Credential (New-Object System.Management.Automation.PSCredential($DomainAdmin,(ConvertTo-SecureString $DomainAdminPassword -AsPlainText -Force))) -Scriptblock { 
+                    Get-NetAdapter | Set-DnsClientServerAddress -ServerAddresses $ADServer2PrivateIP, $ADServer1PrivateIP 
+    }
+                    
+                    
 
 }
 

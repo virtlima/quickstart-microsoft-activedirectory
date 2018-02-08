@@ -4,7 +4,10 @@ param(
     [string]$DomainAdminUser,
 
     [Parameter(Mandatory=$true)]
-    [string]$DomainDNSName
+    [string]$DomainDNSName,
+
+    [Parameter(Mandatory=$true)]
+    [string]$DomainNetBIOSName
     )
 try {
     $ErrorActionPreference = "Stop"
