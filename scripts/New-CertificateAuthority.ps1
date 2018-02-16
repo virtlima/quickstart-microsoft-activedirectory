@@ -1,13 +1,16 @@
 ﻿[CmdletBinding()]
 param(
-    [string]
-    $Username,
+    [Parameter(Mandatory=$true)]
+    [string]$Username,
 
-    [string]
-    $Password,
+    [Parameter(Mandatory=$true)]
+    [string]$DomainDNSName,
 
-    [string]
-    $DomainDNSName
+    [Parameter(Mandatory=$false)]
+    [string]$Password,
+
+    [Parameter(Mandatory=$false)]
+    [string]$SSMParamName
 )
 
 <#
@@ -16,6 +19,23 @@ param(
     https://gallery.technet.microsoft.com/scriptcenter/xAdcsDeployment-PowerShell-cc0622fa/file/126018/1/xAdcsDeployment_0.1.0.0.zip
     https://github.com/PowerShell/xAdcsDeployment
 #>
+$SSMParamUsed = $false
+
+if (([string]::IsNullOrEmpty($Password)) -and ([string]::IsNullOrEmpty($SSMParamName))) {
+   Throw "You must pass either a Password or an SSMParamName argument"   
+}
+Elseif(-not ([string]::IsNullOrEmpty($SSMParamName))) {
+   echo "SSMParamName argument used"
+   $SSMParamUsed = $true
+}
+Else {
+   echo "Password argument used"
+}
+
+if ($SSMParamUsed) {
+   $Password = (Get-SSMParameterValue -Names $SSMParamName -WithDecryption $True).Parameters[0].Value
+}
+
 
 $Pass = ConvertTo-SecureString $Password -AsPlainText -Force
 $Credential = New-Object System.Management.Automation.PSCredential -ArgumentList "$Username@$DomainDNSName", $Pass
@@ -72,10 +92,21 @@ Configuration CertificateAuthority {
             DependsOn = '[WindowsFeature]ADCS-Web-Enrollment','[xADCSCertificationAuthority]ADCS' 
         }  
     }   
-}  
+}
 
-CertificateAuthority -ConfigurationData $ConfigurationData
-Start-DscConfiguration -Path .\CertificateAuthority -Wait -Verbose -Force
-Get-ChildItem .\CertificateAuthority *.mof -ErrorAction SilentlyContinue | Remove-Item -Confirm:$false -ErrorAction SilentlyContinue
+try {
+    $ErrorActionPreference = "Stop"
+    Start-Transcript -Path C:\cfn\log\$($MyInvocation.MyCommand.Name).log -Append
 
-Get-ChildItem C:\Windows\system32\CertSrv\CertEnroll *.crt | Copy-Item -Destination c:\inetpub\wwwroot\cert.crt
+    $secure = (Get-SSMParameterValue -Names $SSMParamName -WithDecryption $True).Parameters[0].Value
+    CertificateAuthority -ConfigurationData $ConfigurationData
+    Start-DscConfiguration -Path .\CertificateAuthority -Wait -Verbose -Force
+    Get-ChildItem .\CertificateAuthority *.mof -ErrorAction SilentlyContinue | Remove-Item -Confirm:$false -ErrorAction SilentlyContinue
+
+    Get-ChildItem C:\Windows\system32\CertSrv\CertEnroll *.crt | Copy-Item -Destination c:\inetpub\wwwroot\cert.crt
+
+}
+
+catch {
+    $_ | Write-AWSQuickStartException
+}

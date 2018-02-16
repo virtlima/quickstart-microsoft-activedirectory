@@ -52,6 +52,7 @@ tests:
       - ap-southeast-1
       - ca-central-1
       - eu-west-1
+      - eu-west-3
       - sa-east-1
       - us-east-2
       - us-west-2
@@ -72,3 +73,4 @@ tests:
     regions:
       - us-east-1
     template_file: ad-master-3.template
+
