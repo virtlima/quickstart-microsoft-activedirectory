@@ -96,7 +96,7 @@
             "Type": "String",
             "Default": "example.com",
             "MinLength": "3",
-            "MaxLength": "255",
+            "MaxLength": "25",
             "AllowedPattern": "[a-zA-Z0-9\\-]+\\..+"
         },
         "DomainNetBIOSName": {
