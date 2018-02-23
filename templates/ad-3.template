@@ -95,7 +95,7 @@
             "Description": "Fully qualified domain name (FQDN) of the forest root domain e.g. example.com",
             "Type": "String",
             "Default": "example.com",
-            "MinLength": "3",
+            "MinLength": "2",
             "MaxLength": "25",
             "AllowedPattern": "[a-zA-Z0-9\\-]+\\..+"
         },
