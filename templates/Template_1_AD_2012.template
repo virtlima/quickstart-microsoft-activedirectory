@@ -766,6 +766,9 @@
                                     ]
                                 }
                             },
+                            "c:\\cfn\\modules\\AWSQuickStart.zip": {
+                                "source": "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/submodules/quickstart-microsoft-utilities/modules/AWSQuickStart.zip"
+                            },
                             "c:\\cfn\\scripts\\New-LabADUser.ps1": {
                                 "source": "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/New-LabADUser.ps1"
                             },
@@ -815,6 +818,10 @@
                             },
                             "c-unpack-dsc-resource": {
                                 "command": "powershell.exe -command c:\\cfn\\scripts\\Unzip-Archive.ps1 -Source c:\\cfn\\modules\\xAdcsDeployment_0.1.0.0.zip -Destination 'C:\\Program Files\\WindowsPowerShell\\Modules'",
+                                "waitAfterCompletion": "0"
+                            },
+                            "d-unpack-quickstart-module": {
+                                "command": "powershell.exe -Command C:\\cfn\\scripts\\Unzip-Archive.ps1 -Source C:\\cfn\\modules\\AWSQuickStart.zip -Destination 'C:\\Program Files\\WindowsPowerShell\\Modules'",
                                 "waitAfterCompletion": "0"
                             }
                         }
@@ -1269,6 +1276,9 @@
                                     ]
                                 }
                             },
+                            "c:\\cfn\\modules\\AWSQuickStart.zip": {
+                                "source": "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/submodules/quickstart-microsoft-utilities/modules/AWSQuickStart.zip"
+                            },
                             "c:\\cfn\\scripts\\New-CertificateAuthority.ps1": {
                                 "source": "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/New-CertificateAuthority.ps1"
                             },
@@ -1309,6 +1319,10 @@
                             },
                             "c-unpack-dsc-resource": {
                                 "command": "powershell.exe -command c:\\cfn\\scripts\\Unzip-Archive.ps1 -Source c:\\cfn\\modules\\xAdcsDeployment_0.1.0.0.zip -Destination 'C:\\Program Files\\WindowsPowerShell\\Modules'",
+                                "waitAfterCompletion": "0"
+                            },
+                            "d-unpack-quickstart-module": {
+                                "command": "powershell.exe -Command C:\\cfn\\scripts\\Unzip-Archive.ps1 -Source C:\\cfn\\modules\\AWSQuickStart.zip -Destination 'C:\\Program Files\\WindowsPowerShell\\Modules'",
                                 "waitAfterCompletion": "0"
                             }
                         }

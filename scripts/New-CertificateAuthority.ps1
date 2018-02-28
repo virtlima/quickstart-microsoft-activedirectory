@@ -32,7 +32,7 @@ Else {
    echo "Password argument used"
 }
 
-if ($SSMParamUsed) {
+if ($SSMParamUsed -eq "True") {
    $Password = (Get-SSMParameterValue -Names $SSMParamName -WithDecryption $True).Parameters[0].Value
 }
 
@@ -97,8 +97,6 @@ Configuration CertificateAuthority {
 try {
     $ErrorActionPreference = "Stop"
     Start-Transcript -Path C:\cfn\log\$($MyInvocation.MyCommand.Name).log -Append
-
-    $secure = (Get-SSMParameterValue -Names $SSMParamName -WithDecryption $True).Parameters[0].Value
     CertificateAuthority -ConfigurationData $ConfigurationData
     Start-DscConfiguration -Path .\CertificateAuthority -Wait -Verbose -Force
     Get-ChildItem .\CertificateAuthority *.mof -ErrorAction SilentlyContinue | Remove-Item -Confirm:$false -ErrorAction SilentlyContinue
