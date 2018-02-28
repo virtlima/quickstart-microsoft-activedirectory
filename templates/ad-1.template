@@ -1055,14 +1055,6 @@
                                             "powershell.exe -ExecutionPolicy RemoteSigned -Command c:\\cfn\\scripts\\ConvertTo-EnterpriseAdmin.ps1 -Members ",
                                             {
                                                 "Ref": "DomainAdminUser"
-                                            },
-                                            " -Server ",
-                                            {
-                                                "Ref": "ADServer1NetBIOSName"
-                                            },
-                                            ".",
-                                            {
-                                                "Ref": "DomainDNSName"
                                             }
                                         ]
                                     ]

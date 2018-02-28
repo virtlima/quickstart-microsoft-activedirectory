@@ -6,11 +6,7 @@ param(
 
     [string[]]
     [Parameter(Mandatory=$true, Position=1)]
-    $Members,
-
-    [string]
-    [Parameter(Mandatory=$true, Position=2)]
-    $Server
+    $Members
 )
 
 $timeoutInSeconds = 300
@@ -18,6 +14,7 @@ $elapsedSeconds = 0
 $intervalSeconds = 1
 $startTime = Get-Date
 $running = $false
+
 
 try {
     $ErrorActionPreference = "Stop"
@@ -28,7 +25,7 @@ try {
             $adws = Get-Process -Name Microsoft.ActiveDirectory.WebServices
             if ($adws) {
                 $Groups | ForEach-Object{
-                    Add-ADGroupMember -Identity $_ -Members $Members -Server $Server
+                    Add-ADGroupMember -Identity $_ -Members $Members
                 }
                 break
             }           
