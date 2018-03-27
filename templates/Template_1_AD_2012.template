@@ -767,25 +767,25 @@
                                 }
                             },
                             "c:\\cfn\\modules\\AWSQuickStart.zip": {
-                                "source": "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/submodules/quickstart-microsoft-utilities/modules/AWSQuickStart.zip"
+                                "source": "https://s3.amazonaws.com/aws-quickstart/quickstart-microsoft-activedirectory/submodules/quickstart-microsoft-utilities/modules/AWSQuickStart.zip"
                             },
                             "c:\\cfn\\scripts\\New-LabADUser.ps1": {
-                                "source": "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/New-LabADUser.ps1"
+                                "source": "https://s3.amazonaws.com/aws-quickstart/quickstart-microsoft-activedirectory/scripts/New-LabADUser.ps1"
                             },
                             "c:\\cfn\\scripts\\users.csv": {
-                                "source": "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/users.csv"
+                                "source": "https://s3.amazonaws.com/aws-quickstart/quickstart-microsoft-activedirectory/scripts/users.csv"
                             },
                             "c:\\cfn\\scripts\\ConvertTo-EnterpriseAdmin.ps1": {
-                                "source": "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/ConvertTo-EnterpriseAdmin.ps1"
+                                "source": "https://s3.amazonaws.com/aws-quickstart/quickstart-microsoft-activedirectory/scripts/ConvertTo-EnterpriseAdmin.ps1"
                             },
                             "c:\\cfn\\scripts\\New-CertificateAuthority.ps1": {
-                                "source": "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/New-CertificateAuthority.ps1"
+                                "source": "https://s3.amazonaws.com/aws-quickstart/quickstart-microsoft-activedirectory/scripts/New-CertificateAuthority.ps1"
                             },
                             "c:\\cfn\\modules\\xAdcsDeployment_0.1.0.0.zip": {
-                                "source": "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/xAdcsDeployment_0.1.0.0.zip"
+                                "source": "https://s3.amazonaws.com/aws-quickstart/quickstart-microsoft-activedirectory/scripts/xAdcsDeployment_0.1.0.0.zip"
                             },
                             "c:\\cfn\\scripts\\Unzip-Archive.ps1": {
-                                "source": "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/submodules/quickstart-microsoft-utilities/scripts/Unzip-Archive.ps1"
+                                "source": "https://s3.amazonaws.com/aws-quickstart/quickstart-microsoft-activedirectory/submodules/quickstart-microsoft-utilities/scripts/Unzip-Archive.ps1"
                             }
                         },
                         "services": {
@@ -1277,16 +1277,16 @@
                                 }
                             },
                             "c:\\cfn\\modules\\AWSQuickStart.zip": {
-                                "source": "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/submodules/quickstart-microsoft-utilities/modules/AWSQuickStart.zip"
+                                "source": "https://s3.amazonaws.com/aws-quickstart/quickstart-microsoft-activedirectory/submodules/quickstart-microsoft-utilities/modules/AWSQuickStart.zip"
                             },
                             "c:\\cfn\\scripts\\New-CertificateAuthority.ps1": {
-                                "source": "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/New-CertificateAuthority.ps1"
+                                "source": "https://s3.amazonaws.com/aws-quickstart/quickstart-microsoft-activedirectory/scripts/New-CertificateAuthority.ps1"
                             },
                             "c:\\cfn\\modules\\xAdcsDeployment_0.1.0.0.zip": {
-                                "source": "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/xAdcsDeployment_0.1.0.0.zip"
+                                "source": "https://s3.amazonaws.com/aws-quickstart/quickstart-microsoft-activedirectory/scripts/xAdcsDeployment_0.1.0.0.zip"
                             },
                             "c:\\cfn\\scripts\\Unzip-Archive.ps1": {
-                                "source": "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/submodules/quickstart-microsoft-utilities/scripts/Unzip-Archive.ps1"
+                                "source": "https://s3.amazonaws.com/aws-quickstart/quickstart-microsoft-activedirectory/submodules/quickstart-microsoft-utilities/scripts/Unzip-Archive.ps1"
                             }
                         },
                         "services": {
@@ -1686,7 +1686,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\Configure-RDGW.ps1": {
-                                "source": "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/Configure-RDGW.ps1"
+                                "source": "https://s3.amazonaws.com/aws-quickstart/quickstart-microsoft-activedirectory/scripts/Configure-RDGW.ps1"
                             }
                         },
                         "services": {
@@ -1957,7 +1957,7 @@
                                 }
                             },
                             "c:\\cfn\\scripts\\Configure-RDGW.ps1": {
-                                "source": "https://s3.amazonaws.com/quickstart-reference/microsoft/activedirectory/latest/scripts/Configure-RDGW.ps1"
+                                "source": "https://s3.amazonaws.com/aws-quickstart/quickstart-microsoft-activedirectory/scripts/Configure-RDGW.ps1"
                             }
                         },
                         "services": {
