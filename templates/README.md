@@ -9,18 +9,15 @@ These templates are divided into master templates which nest this and other Quic
 * ad-master-3.template
 
 #### Existing VPC Templates
+* ad-1.template
+* ad-2.template
+* ad-3.template
+
+## Previous Templates
 * ad-2012r2-1.template
 * ad-2012r2-2.template
 * ad-2012r2-3.template
 
-## Previous Templates
-These templates include VPC and RDGW creation in addition to the scenario.
-* Template_1_AD_2012R2.template
-* Template_2_AD_2012R2.template
-* Template_3_AD_2012R2.template
-
 ## Deprecated Templates
 These templates include VPC and RDGW creation in addition to the scenario.
-* Template_1_AD_2012.template
-* Template_2_AD_2012.template
-* Template_3_AD_2012.template
+* Template_1_AD_2012R2.template
