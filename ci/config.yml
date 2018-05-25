@@ -19,22 +19,6 @@ global:
     - us-west-2
   reporting: true
 tests:
-  template2:
-    parameter_input: Template_2_AD_2012R2.json
-    regions:
-      - ap-northeast-1
-      - ap-south-1
-      - ap-southeast-2
-      - eu-central-1
-      - eu-west-2
-      - us-east-1
-      - us-west-1
-    template_file: Template_2_AD_2012R2.template
-  template3:
-    parameter_input: Template_3_AD_2012R2.json
-    regions:
-      - us-east-1
-    template_file: Template_3_AD_2012R2.template
   master1:
     parameter_input: ad-master-1.json
     regions:
