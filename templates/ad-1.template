@@ -11,12 +11,15 @@
                     "Parameters": [
                         "VPCCIDR",
                         "VPCID",
+                        "NumberOfAZs",
                         "PrivateSubnet1CIDR",
                         "PrivateSubnet1ID",
                         "PrivateSubnet2CIDR",
+                        "PrivateSubnet3CIDR",
                         "PrivateSubnet2ID",
                         "PublicSubnet1CIDR",
-                        "PublicSubnet2CIDR"
+                        "PublicSubnet2CIDR",
+                        "PublicSubnet3CIDR"
                     ]
                 },
                 {
@@ -101,11 +104,20 @@
                 "PrivateSubnet2ID": {
                     "default": "Private Subnet 2 ID"
                 },
+                "PrivateSubnet3CIDR": {
+                    "default": "(Optional) Private Subnet 3 CIDR"
+                },
                 "PublicSubnet1CIDR": {
                     "default": "Public Subnet 1 CIDR"
                 },
                 "PublicSubnet2CIDR": {
                     "default": "Public Subnet 2 CIDR"
+                },
+                "PublicSubnet3CIDR": {
+                    "default": "(Optional) Public Subnet 3 CIDR"
+                },
+                "NumberOfAZs": {
+                    "default": "Number of AZs AD will Support"
                 },
                 "QSS3BucketName": {
                     "default": "Quick Start S3 Bucket Name"
@@ -222,6 +234,15 @@
             "Description": "Public/private key pairs allow you to securely connect to your instance after it launches",
             "Type": "AWS::EC2::KeyPair::KeyName"
         },
+        "NumberOfAZs": {
+            "AllowedValues": [
+                "2",
+                "3"
+            ],
+            "Default": "2",
+            "Description": "Number of Availability Zones to use in the VPC. This must match your selections in the list of Availability Zones parameter.",
+            "Type": "String"
+        },
         "PrivateSubnet1CIDR": {
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
             "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28",
@@ -244,6 +265,11 @@
             "Description": "ID of the private subnet 2 in Availability Zone 2 (e.g., subnet-a0246dcd)",
             "Type": "AWS::EC2::Subnet::Id"
         },
+        "PrivateSubnet3CIDR": {
+            "Default": "",
+            "Description": "CIDR block for private subnet 3 located in Availability Zone 3.",
+            "Type": "String"
+        },
         "PublicSubnet1CIDR": {
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
             "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28",
@@ -256,6 +282,11 @@
             "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28",
             "Default": "10.0.144.0/20",
             "Description": "CIDR Block for the public DMZ subnet 2 located in Availability Zone 2",
+            "Type": "String"
+        },
+        "PublicSubnet3CIDR": {
+            "Default": "",
+            "Description": "CIDR Block for the public DMZ subnet 3 located in Availability Zone 3",
             "Type": "String"
         },
         "QSS3BucketName": {
@@ -418,6 +449,14 @@
         }
     },
     "Conditions": {
+        "IsThreeAz": {
+            "Fn::Equals": [
+                {
+                    "Ref": "NumberOfAZs"
+                },
+                "3"
+            ]
+        },
         "GovCloudCondition": {
             "Fn::Equals": [
                 {
@@ -1061,34 +1100,70 @@
                         "commands": {
                             "a-rename-default-site": {
                                 "command": {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-                                            "powershell.exe -Command c:\\cfn\\scripts\\Configure-Sites.ps1 -PublicSubnet1CIDR ",
-                                            {
-                                                "Ref": "PublicSubnet1CIDR"
-                                            },
-                                            " -PublicSubnet2CIDR ",
-                                            {
-                                                "Ref": "PublicSubnet2CIDR"
-                                            },
-                                            " -PrivateSubnet1CIDR ",
-                                            {
-                                                "Ref": "PrivateSubnet1CIDR"
-                                            },
-                                            " -PrivateSubnet2CIDR ",
-                                            {
-                                                "Ref": "PrivateSubnet2CIDR"
-                                            },
-                                            " -Server ",
-                                            {
-                                                "Ref": "ADServer1NetBIOSName"
-                                            },
-                                            ".",
-                                            {
-                                                "Ref": "DomainDNSName"
-                                            }
-                                        ]
+                                    "Fn::If": [
+                                        "IsThreeAz",
+                                        {
+                                            "Fn::Join": [
+                                                "",
+                                                [
+                                                    "powershell.exe -Command c:\\cfn\\scripts\\Configure-Sites.ps1 -PublicSubnet1CIDR ",
+                                                    {
+                                                        "Ref": "PublicSubnet1CIDR"
+                                                    },
+                                                    " -PublicSubnet2CIDR ",
+                                                    {
+                                                        "Ref": "PublicSubnet2CIDR"
+                                                    },
+                                                    " -PrivateSubnet1CIDR ",
+                                                    {
+                                                        "Ref": "PrivateSubnet1CIDR"
+                                                    },
+                                                    " -PrivateSubnet2CIDR ",
+                                                    {
+                                                        "Ref": "PrivateSubnet2CIDR"
+                                                    },
+                                                    " -PublicSubnet3CIDR ",
+                                                    {
+                                                        "Ref": "PublicSubnet3CIDR"
+                                                    },
+                                                    " -PrivateSubnet3CIDR ",
+                                                    {
+                                                        "Ref": "PrivateSubnet3CIDR"
+                                                    },
+                                                    " -Region ",
+                                                    {
+                                                        "Ref": "AWS::Region"
+                                                    }
+                                                ]
+                                            ]
+                                        },
+                                        {
+                                            "Fn::Join": [
+                                                "",
+                                                [
+                                                    "powershell.exe -Command c:\\cfn\\scripts\\Configure-Sites.ps1 -PublicSubnet1CIDR ",
+                                                    {
+                                                        "Ref": "PublicSubnet1CIDR"
+                                                    },
+                                                    " -PublicSubnet2CIDR ",
+                                                    {
+                                                        "Ref": "PublicSubnet2CIDR"
+                                                    },
+                                                    " -PrivateSubnet1CIDR ",
+                                                    {
+                                                        "Ref": "PrivateSubnet1CIDR"
+                                                    },
+                                                    " -PrivateSubnet2CIDR ",
+                                                    {
+                                                        "Ref": "PrivateSubnet2CIDR"
+                                                    },
+                                                    " -Region ",
+                                                    {
+                                                        "Ref": "AWS::Region"
+                                                    }
+                                                ]
+                                            ]
+                                        }
                                     ]
                                 },
                                 "waitAfterCompletion": "0"
