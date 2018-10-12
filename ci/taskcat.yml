@@ -12,6 +12,7 @@ global:
     - eu-central-1
     - eu-west-1
     - eu-west-2
+    - eu-west-3
     - sa-east-1
     - us-east-1
     - us-east-2
@@ -19,30 +20,42 @@ global:
     - us-west-2
   reporting: true
 tests:
-  master1:
+  master1-ad:
     parameter_input: ad-master-1.json
     regions:
       - ap-northeast-2
       - ap-southeast-1
       - ca-central-1
       - eu-west-1
-      - eu-west-3
+      - ap-south-1
       - us-east-2
-      - us-west-2
+      - us-west-1
     template_file: ad-master-1.template
-  master2:
-    parameter_input: ad-master-2.json
+  master1-ad-3az:
+    parameter_input: ad-master-1-3az.json
     regions:
       - ap-northeast-1
-      - ap-south-1
       - ap-southeast-2
-      - eu-central-1
       - eu-west-2
+      - eu-west-3
+      - eu-central-1
       - us-east-1
-      - us-west-1
-    template_file: ad-master-2.template
-  master3:
-    parameter_input: ad-master-3.json
-    regions:
-      - us-east-1
-    template_file: ad-master-3.template
+      - us-west-2
+    template_file: ad-master-1.template
+#  master2-ad:
+#    parameter_input: ad-master-2.json
+#    regions:
+#      - ap-northeast-1
+#      - ap-south-1
+#      - ap-southeast-2
+#      - eu-central-1
+#      - eu-west-2
+#      - us-east-1
+#      - us-west-1
+#    template_file: ad-master-2.template
+#  master3-ad:
+#    parameter_input: ad-master-3.json
+#    regions:
+#      - us-east-1
+#    template_file: ad-master-3.template
+#
