@@ -390,6 +390,12 @@
             },
             "Description": "AD Server 2 Private IP Address (this may vary based on Directory Service order of IP addresses)"
         },
+        "DirectoryID": {
+            "Value": {
+                "Ref": "MicrosoftAD"
+            },
+            "Description": "Directory Services ID"
+        },        
         "DomainAdmin": {
             "Value": {
                 "Fn::Join": [
