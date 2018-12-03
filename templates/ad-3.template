@@ -26,7 +26,8 @@
                     "Parameters": [
                         "DomainDNSName",
                         "DomainNetBIOSName",
-                        "DomainAdminPassword"
+                        "DomainAdminPassword",
+                        "ADEdition"
                     ]
                 },
                 {
@@ -48,6 +49,9 @@
                 },
                 "DomainNetBIOSName": {
                     "default": "Domain NetBIOS Name"
+                },
+                "ADEdition": {
+                    "default": "AWS Microsoft AD edition"
                 },
                 "PrivateSubnet1CIDR": {
                     "default": "Private Subnet 1 CIDR"
@@ -106,6 +110,15 @@
             "MinLength": "1",
             "MaxLength": "15",
             "AllowedPattern": "[a-zA-Z0-9\\-]+"
+        },
+        "ADEdition": {
+            "AllowedValues": [
+                "Standard",
+                "Enterprise"
+            ],
+            "Default": "Enterprise",
+            "Description": "The AWS Microsoft AD edition. Valid values include Standard and Enterprise.",
+            "Type": "String"
         },
         "PrivateSubnet1CIDR": {
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
@@ -231,6 +244,9 @@
             "Properties": {
                 "Name": {
                     "Ref": "DomainDNSName"
+                },
+                "Edition" : {
+                    "Ref": "ADEdition"
                 },
                 "ShortName": {
                     "Ref": "DomainNetBIOSName"
