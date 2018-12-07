@@ -16,6 +16,10 @@
         "ParameterValue": "example"
     },
     {
+        "ParameterKey": "ADEdition",
+        "ParameterValue": "Enterprise"
+    },
+    {
         "ParameterKey": "KeyPairName",
         "ParameterValue": "$[taskcat_getkeypair]"
     },
