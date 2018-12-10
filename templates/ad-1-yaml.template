@@ -8,6 +8,7 @@ Description: This template creates 2 Windows 2016 Active Directory Domain Contro
   EC2 Windows instance and related resources. You will be billed for the AWS resources
   used if you create a stack from this template. QS(0001)
 Metadata:
+# Cloudformation Interface Section influences how parameters are displayed in the Web UI
   AWS::CloudFormation::Interface:
     ParameterGroups:
       - Label:
@@ -98,6 +99,7 @@ Metadata:
         default: VPC CIDR
       VPCID:
         default: VPC ID
+# Parameter Section is where intake of information Occurs. 
 Parameters:
   ADServer1InstanceType:
     AllowedValues:
@@ -270,6 +272,7 @@ Parameters:
     Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
     Default: '/aws/service/ami-windows-latest/Windows_Server-2016-English-Full-Base'
 Rules:
+# This rule ensures taht the Subnet Chosen Resides in the VPC
   SubnetsInVPC:
     Assertions:
       - Assert: !EachMemberIn
@@ -278,6 +281,7 @@ Rules:
             - VpcId
           - !RefAll 'AWS::EC2::VPC::Id'
         AssertDescription: All subnets must in the VPC
+# This rule ensure that no M4 Instance Types are selected for the EU-WEST-3 Region
   CheckSupportedInstances:
     RuleCondition: !Or
       - !Contains
@@ -299,9 +303,11 @@ Rules:
             - !Ref 'AWS::Region'
         AssertDescription: M4 instances are not available in the Paris region
 Conditions:
+# This Condition helps to determine if 3 AZs should be added to AD Sites Configuration
   IsThreeAz: !Equals
     - !Ref 'NumberOfAZs'
     - '3'
+# This Confition determines if the the region if gov cloud of not. 
   GovCloudCondition: !Equals
     - !Ref 'AWS::Region'
     - us-gov-west-1
@@ -672,7 +678,6 @@ Resources:
             StackName: "{{StackName}}"
             Status: FAILURE
             UniqueId: "{{dc2InstanceId.InstanceId}}"
-  
   AWSQuickstartADDSRole:
     Type: AWS::IAM::Role
     Properties:

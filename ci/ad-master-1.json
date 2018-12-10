@@ -5,7 +5,7 @@
     },
     {
         "ParameterKey": "ADServer1NetBIOSName",
-        "ParameterValue": "DC1"
+        "ParameterValue": "DC1-Master1"
     },
     {
         "ParameterKey": "ADServer1PrivateIP",
@@ -17,7 +17,7 @@
     },
     {
         "ParameterKey": "ADServer2NetBIOSName",
-        "ParameterValue": "DC2"
+        "ParameterValue": "DC2-Master1"
     },
     {
         "ParameterKey": "ADServer2PrivateIP",
@@ -74,10 +74,6 @@
     {
         "ParameterKey": "RDGWCIDR",
         "ParameterValue": "10.0.0.0/16"
-    },
-    {
-        "ParameterKey": "RestoreModePassword",
-        "ParameterValue": "$[taskcat_genpass_16]"
     },
     {
         "ParameterKey": "VPCCIDR",
