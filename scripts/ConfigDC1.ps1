@@ -232,7 +232,7 @@ Configuration ConfigDC1 {
         }
 
         # Adding AZ Subnets to AD Site
-        xADReplicationSubnet ReplicationVPCCIDR {
+        xADReplicationSubnet VPCCIDR {
             Name = $VPCCIDR
             Site = $SiteName
             DependsOn = "[xADReplicationSite]RegionSite"
