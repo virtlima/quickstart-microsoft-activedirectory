@@ -5,7 +5,7 @@
     },
     {
         "ParameterKey": "ADServer1NetBIOSName",
-        "ParameterValue": "DC1-Master1"
+        "ParameterValue": "DCMaster1"
     },
     {
         "ParameterKey": "ADServer1PrivateIP",
@@ -17,7 +17,7 @@
     },
     {
         "ParameterKey": "ADServer2NetBIOSName",
-        "ParameterValue": "DC2-Master1"
+        "ParameterValue": "DCMaster2"
     },
     {
         "ParameterKey": "ADServer2PrivateIP",
@@ -81,6 +81,6 @@
     },
     {
         "ParameterKey": "QSS3BucketName",
-        "ParameterValue": "aws-quickstart"
+        "ParameterValue": "$[taskcat_autobucket]"
     }
 ]

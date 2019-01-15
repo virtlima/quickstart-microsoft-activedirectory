@@ -21,29 +21,9 @@ parameters:
     default: "10.0.32.10"
     description: "Fixed private IP for the first Active Directory server located in Availability Zone 1"
     type: "String"
-  PrivateSubnet1CIDR:
-    default: '10.0.0.0/19'
-    description: "CIDR block for private subnet 1 located in Availability Zone 1."
-    type: "String"
-  PrivateSubnet2CIDR:
-    default: '10.0.32.0/19'
-    description: "CIDR block for private subnet 2 located in Availability Zone 2."
-    type: "String"
-  PrivateSubnet3CIDR:
-    default: ""
-    description: "CIDR block for private subnet 3 located in Availability Zone 3."
-    type: "String"
-  PublicSubnet1CIDR:
-    default: '10.0.128.0/20'
-    description: "CIDR Block for the public DMZ subnet 1 located in Availability Zone 1"
-    type: "String"
-  PublicSubnet2CIDR:
-    default: '10.0.144.0/20'
-    description: "CIDR Block for the public DMZ subnet 2 located in Availability Zone 2"
-    type: "String"
-  PublicSubnet3CIDR:
-    default: ""
-    description: "CIDR Block for the public DMZ subnet 3 located in Availability Zone 3"
+  VPCCIDR:
+    default: '10.0.0.0/16'
+    description: "CIDR block for VPC."
     type: "String"
   ADAdminSecParamName:
     description: "AWS Secrets Parameter Name that has Password and User namer for the domain administrator."
@@ -146,25 +126,8 @@ mainSteps:
   - Name: InstanceId
     Selector: "$.Reservations[0].Instances[0].InstanceId"
     Type: "String"
-# This step determines if 2AZ or 3AZ Config is needed for AD Site Config
-- name: 2AZor3AZ
-  action: aws:branch
-  inputs:
-    Choices:
-    - And:
-      - Variable: "{{PrivateSubnet3CIDR}}"
-        StringEquals: ""
-      - Variable: "{{PublicSubnet3CIDR}}"
-        StringEquals: ""
-      NextStep: createDC1Mof2AZ
-    - Or:
-      - Variable: "{{PrivateSubnet3CIDR}}"
-        Contains: "/"
-      - Variable: "{{PublicSubnet3CIDR}}"
-        Contains: "/"
-      NextStep: createDC1Mof3AZ
-# Generates MOF file on first DC Node to be processed by LCM if 2 AZ.
-- name: "createDC1Mof2AZ"
+# Generates MOF file on first DC Node to be processed by LCM.
+- name: "createDC1Mof"
   action: "aws:runCommand"
   onFailure: "step:signalfailure"
   nextStep: "configDC1"
@@ -178,23 +141,7 @@ mainSteps:
     Parameters:
       sourceType: "S3"
       sourceInfo: '{"path": "https://s3.amazonaws.com/{{QSS3BucketName}}/{{QSS3KeyPrefix}}scripts/ConfigDC1.ps1"}'
-      commandLine: "./ConfigDC1.ps1 -ADServer1NetBIOSName {{ADServer1NetBIOSName}} -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -ADAdminSecParam {{ADAdminSecParamName}} -ADAltUserSecParam {{ADAltUserSecParamName}} -RestoreModeSecParam {{RestoreModeSecParamName}} -SiteName {{global:REGION}} -PrivateSubnet1CIDR {{PrivateSubnet1CIDR}} -PublicSubnet1CIDR {{PublicSubnet1CIDR}} -PrivateSubnet2CIDR {{PrivateSubnet2CIDR}} -PublicSubnet2CIDR {{PublicSubnet2CIDR}}"
-# Generates MOF file on first DC Node to be processed by LCM if 3 AZ.
-- name: "createDC1Mof3AZ"
-  action: "aws:runCommand"
-  onFailure: "step:signalfailure"
-  nextStep: "configDC1"
-  inputs:
-    DocumentName: "AWS-RunRemoteScript"
-    InstanceIds:
-    - "{{dc1InstanceId.InstanceId}}"
-    CloudWatchOutputConfig:
-      CloudWatchOutputEnabled: "true"
-      CloudWatchLogGroupName: "/aws/Quick_Start/ActiveDirectoryDS"
-    Parameters:
-      sourceType: "S3"
-      sourceInfo: '{"path": "https://s3.amazonaws.com/{{QSS3BucketName}}/{{QSS3KeyPrefix}}scripts/ConfigDC1.ps1"}'
-      commandLine: "./ConfigDC1.ps1 -ADServer1NetBIOSName {{ADServer1NetBIOSName}} -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -ADAdminSecParam {{ADAdminSecParamName}} -ADAltUserSecParam {{ADAltUserSecParamName}} -RestoreModeSecParam {{RestoreModeSecParamName}} -SiteName {{global:REGION}} -PrivateSubnet1CIDR {{PrivateSubnet1CIDR}} -PublicSubnet1CIDR {{PublicSubnet1CIDR}} -PrivateSubnet2CIDR {{PrivateSubnet2CIDR}} -PrivateSubnet3CIDR {{PrivateSubnet3CIDR}} -PublicSubnet2CIDR {{PublicSubnet2CIDR}} -PublicSubnet3CIDR {{PublicSubnet3CIDR}}"
+      commandLine: "./ConfigDC1.ps1 -ADServer1NetBIOSName {{ADServer1NetBIOSName}} -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -ADAdminSecParam {{ADAdminSecParamName}} -ADAltUserSecParam {{ADAltUserSecParamName}} -RestoreModeSecParam {{RestoreModeSecParamName}} -SiteName {{global:REGION}} -VPCCIDR {{VPCCIDR}}"
 # Kicks off DSC Configuration and loops\reboots until Node matches Configuration defined in MOF file.
 - name: "configDC1"
   action: aws:runCommand
