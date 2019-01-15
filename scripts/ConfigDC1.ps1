@@ -23,22 +23,7 @@ param(
     [string]$SiteName,
 
     [Parameter(Mandatory=$true)]
-    [string]$PrivateSubnet1CIDR,
-
-    [Parameter(Mandatory=$true)]
-    [string]$PublicSubnet1CIDR,
-
-    [Parameter(Mandatory=$true)]
-    [string]$PrivateSubnet2CIDR,
-
-    [Parameter(Mandatory=$true)]
-    [string]$PublicSubnet2CIDR,
-
-    [Parameter(Mandatory=$false)]
-    [string]$PrivateSubnet3CIDR,
-
-    [Parameter(Mandatory=$false)]
-    [string]$PublicSubnet3CIDR  
+    [string]$VPCCIDR
 )
 
 # Grabbing VPC DNS IP in order to set DNS Forwarder for AD DNS
@@ -248,44 +233,9 @@ Configuration ConfigDC1 {
 
         # Adding AZ Subnets to AD Site
         xADReplicationSubnet PrivAZ1 {
-            Name = $PrivateSubnet1CIDR
+            Name = $VPCCIDR
             Site = $SiteName
             DependsOn = "[xADReplicationSite]RegionSite"
-        }
-
-        xADReplicationSubnet PubAZ1 {
-            Name = $PublicSubnet1CIDR
-            Site = $SiteName
-            DependsOn = "[xADReplicationSite]RegionSite"
-        }
-
-        xADReplicationSubnet PrivAZ2 {
-            Name = $PrivateSubnet2CIDR
-            Site = $SiteName
-            DependsOn = "[xADReplicationSite]RegionSite"
-        }
-
-        xADReplicationSubnet PubAZ2 {
-            Name = $PublicSubnet2CIDR
-            Site = $SiteName
-            DependsOn = "[xADReplicationSite]RegionSite"
-        }
-
-        # If 3rd AZ Subnet Parameters Provided will add to Region AD Site
-        if ($PrivateSubnet3CIDR) {
-            xADReplicationSubnet PrivAZ3 {
-                Name = $PrivateSubnet3CIDR
-                Site = $SiteName
-                DependsOn = "[xADReplicationSite]RegionSite"
-            }
-        }
-
-        if ($PublicSubnet3CIDR) {
-            xADReplicationSubnet PubAZ3 {
-                Name = $PublicSubnet3CIDR
-                Site = $SiteName
-                DependsOn = "[xADReplicationSite]RegionSite"
-            }
         }
         
         # Creating Alternative AD Admin User

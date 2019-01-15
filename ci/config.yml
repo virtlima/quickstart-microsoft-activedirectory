@@ -29,7 +29,7 @@ tests:
     #  - sa-east-1
     #  - us-east-2
     #  - us-west-2
-    template_file: ad-master-1-yaml.template
+    template_file: ad-master-1.template
 #  master2:
 #    parameter_input: ad-master-2.json
 #    regions:
