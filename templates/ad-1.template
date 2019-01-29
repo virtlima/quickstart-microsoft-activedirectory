@@ -906,6 +906,94 @@ Resources:
           FromPort: 3389
           ToPort: 3389
           CidrIp: !Ref VPCCIDR
+        - IpProtocol: tcp
+          FromPort: 53
+          ToPort: 53
+          CidrIp: !Sub ${ADServer2PrivateIP}/32
+        - IpProtocol: udp
+          FromPort: 53
+          ToPort: 53
+          CidrIp: !Sub ${ADServer2PrivateIP}/32
+        - IpProtocol: tcp
+          FromPort: 53
+          ToPort: 53
+          CidrIp: !Sub ${ADServer1PrivateIP}/32
+        - IpProtocol: udp
+          FromPort: 53
+          ToPort: 53
+          CidrIp: !Sub ${ADServer1PrivateIP}/32
+        - IpProtocol: tcp
+          FromPort: 49152
+          ToPort: 65535
+          CidrIp: !Sub ${ADServer1PrivateIP}/32
+        - IpProtocol: udp
+          FromPort: 49152
+          ToPort: 65535
+          CidrIp: !Sub ${ADServer1PrivateIP}/32
+        - IpProtocol: tcp
+          FromPort: 49152
+          ToPort: 65535
+          CidrIp: !Sub ${ADServer2PrivateIP}/32
+        - IpProtocol: udp
+          FromPort: 49152
+          ToPort: 65535
+          CidrIp: !Sub ${ADServer2PrivateIP}/32
+        - IpProtocol: tcp
+          FromPort: 88
+          ToPort: 88
+          CidrIp: !Sub ${ADServer1PrivateIP}/32
+        - IpProtocol: udp
+          FromPort: 88
+          ToPort: 88
+          CidrIp: !Sub ${ADServer1PrivateIP}/32
+        - IpProtocol: tcp
+          FromPort: 88
+          ToPort: 88
+          CidrIp: !Sub ${ADServer2PrivateIP}/32
+        - IpProtocol: udp
+          FromPort: 88
+          ToPort: 88
+          CidrIp: !Sub ${ADServer2PrivateIP}/32
+        - IpProtocol: tcp
+          FromPort: 445
+          ToPort: 445
+          CidrIp: !Sub ${ADServer1PrivateIP}/32
+        - IpProtocol: udp
+          FromPort: 445
+          ToPort: 445
+          CidrIp: !Sub ${ADServer1PrivateIP}/32
+        - IpProtocol: tcp
+          FromPort: 445
+          ToPort: 445
+          CidrIp: !Sub ${ADServer2PrivateIP}/32
+        - IpProtocol: udp
+          FromPort: 445
+          ToPort: 445
+          CidrIp: !Sub ${ADServer2PrivateIP}/32
+        - IpProtocol: tcp
+          FromPort: 389
+          ToPort: 389
+          CidrIp: !Sub ${ADServer1PrivateIP}/32
+        - IpProtocol: udp
+          FromPort: 389
+          ToPort: 389
+          CidrIp: !Sub ${ADServer1PrivateIP}/32
+        - IpProtocol: tcp
+          FromPort: 389
+          ToPort: 389
+          CidrIp: !Sub ${ADServer2PrivateIP}/32
+        - IpProtocol: udp
+          FromPort: 389
+          ToPort: 389
+          CidrIp: !Sub ${ADServer2PrivateIP}/32
+        - IpProtocol: tcp
+          FromPort: 636
+          ToPort: 636
+          CidrIp: !Sub ${ADServer1PrivateIP}/32
+        - IpProtocol: tcp
+          FromPort: 636
+          ToPort: 636
+          CidrIp: !Sub ${ADServer2PrivateIP}/32
   DCSecurityGroupIngress:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
