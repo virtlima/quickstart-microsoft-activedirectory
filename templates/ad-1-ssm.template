@@ -95,6 +95,7 @@ Parameters:
   ADServer1InstanceType:
     AllowedValues:
       - t2.large
+      - t3.large
       - m4.large
       - m4.xlarge
       - m4.2xlarge
@@ -122,6 +123,7 @@ Parameters:
   ADServer2InstanceType:
     AllowedValues:
       - t2.large
+      - t3.large
       - m4.large
       - m4.xlarge
       - m4.2xlarge
