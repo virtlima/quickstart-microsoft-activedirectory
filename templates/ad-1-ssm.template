@@ -31,16 +31,20 @@ Metadata:
       - Label:
           default: Microsoft Active Directory Configuration
         Parameters:
+          - AdministratorPassword
           - DomainAdminPassword
           - DomainAdminUser
           - DomainDNSName
           - DomainNetBIOSName
+          - RestoreModePassword
       - Label:
           default: AWS Quick Start Configuration
         Parameters:
           - QSS3BucketName
           - QSS3KeyPrefix
     ParameterLabels:
+      AdministratorPassword:
+        default: Domain Administator Password
       ADServer1InstanceType:
         default: Domain Controller 1 Instance Type
       ADServer1NetBIOSName:
@@ -54,15 +58,17 @@ Metadata:
       ADServer2PrivateIP:
         default: Domain Controller 2 Private IP Address
       DomainAdminPassword:
-        default: Domain Admin Password
+        default: Alternate Domain Admin Password
       DomainAdminUser:
-        default: Domain Admin User Name
+        default: Alternate Domain Admin User Name
       DomainDNSName:
         default: Domain DNS Name
       DomainNetBIOSName:
         default: Domain NetBIOS Name
       KeyPairName:
         default: Key Pair Name
+      RestoreModePassword:
+        default: AD Restore Mode Password
       WS2016FULLBASE:
         default: SSM Parameter Value to grab the lastest AMI ID
       PrivateSubnet1ID:
@@ -78,6 +84,14 @@ Metadata:
       VPCID:
         default: VPC ID
 Parameters:
+  AdministratorPassword:
+    AllowedPattern: (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
+    Description: Password for the Domain Administrator Account. User name is Administrator. Must be at least 8 characters
+      containing letters, numbers and symbols
+    MaxLength: '32'
+    MinLength: '8'
+    NoEcho: 'true'
+    Type: String
   ADServer1InstanceType:
     AllowedValues:
       - t2.large
@@ -136,7 +150,7 @@ Parameters:
     Type: String
   DomainAdminPassword:
     AllowedPattern: (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
-    Description: Password for the domain admin user. Must be at least 8 characters
+    Description: Password for the Alternate Admin User. This is different tnan "Administrator". Must be at least 8 characters
       containing letters, numbers and symbols
     MaxLength: '32'
     MinLength: '8'
@@ -176,6 +190,14 @@ Parameters:
   PrivateSubnet2ID:
     Description: ID of the private subnet 2 in Availability Zone 2 (e.g., subnet-a0246dcd)
     Type: AWS::EC2::Subnet::Id
+  RestoreModePassword:
+    AllowedPattern: (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
+    Description: Password for the domain admin user. Must be at least 8 characters
+      containing letters, numbers and symbols
+    MaxLength: '32'
+    MinLength: '8'
+    NoEcho: 'true'
+    Type: String
   QSS3BucketName:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
     ConstraintDescription: Quick Start bucket name can include numbers, lowercase
@@ -216,30 +238,8 @@ Rules:
             - VpcId
           - !RefAll 'AWS::EC2::VPC::Id'
         AssertDescription: All subnets must in the VPC
-  CheckSupportedInstances:
-    RuleCondition: !Or
-      - !Contains
-        - - m4.large
-          - m4.xlarge
-          - m4.2xlarge
-          - m4.4xlarge
-        - !Ref 'ADServer1InstanceType'
-      - !Contains
-        - - m4.large
-          - m4.xlarge
-          - m4.2xlarge
-          - m4.4xlarge
-        - !Ref 'ADServer2InstanceType'
-    Assertions:
-      - Assert: !Not
-          - !Contains
-            - - eu-west-3
-            - !Ref 'AWS::Region'
-        AssertDescription: M4 instances are not available in the Paris region
 Conditions:
-  GovCloudCondition: !Equals
-    - !Ref 'AWS::Region'
-    - us-gov-west-1
+  GovCloudCondition: !Equals [!Ref 'AWS::Region', us-gov-west-1]
 Resources:
   QuickStartLogs:
     Type: AWS::Logs::LogGroup
@@ -411,9 +411,9 @@ Resources:
               CloudWatchLogGroupName: !Ref 'QuickStartLogs'
             Parameters:
               sourceType: "S3"
-              sourceInfo: !Sub ['{"path": "https://${QSS3Region}.amazonaws.com/{{QSS3BucketName}}/{{QSS3KeyPrefix}}scripts/ConfigDC1.ps1"}',
+              sourceInfo: !Sub ['{"path": "https://${QSS3Region}.amazonaws.com/{{QSS3BucketName}}/{{QSS3KeyPrefix}}scripts/ConfigDC1-SSM.ps1"}',
                   {QSS3Region: !If [GovCloudCondition, s3-us-gov-west-1, s3]}]
-              commandLine: "./ConfigDC1.ps1 -ADServer1NetBIOSName {{ADServer1NetBIOSName}} -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -ADAdminSecParam {{ADAdminSecParamName}} -ADAltUserSecParam {{ADAltUserSecParamName}} -RestoreModeSecParam {{RestoreModeSecParamName}} -SiteName {{global:REGION}} -VPCCIDR {{VPCCIDR}}"
+              commandLine: "./ConfigDC1-SSM.ps1 -ADServer1NetBIOSName {{ADServer1NetBIOSName}} -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -ADAdminSSMParam {{ADAdminSecParamName}} -ADAltUserSSMParam {{ADAltUserSecParamName}} -RestoreModeSSMParam {{RestoreModeSecParamName}} -SiteName {{global:REGION}} -VPCCIDR {{VPCCIDR}}"
         # Kicks off DSC Configuration and loops\reboots until Node matches Configuration defined in MOF file.
         - name: "configDC1"
           action: aws:runCommand
@@ -473,9 +473,9 @@ Resources:
               CloudWatchLogGroupName: !Ref 'QuickStartLogs'
             Parameters:
               sourceType: "S3"
-              sourceInfo: !Sub ['{"path": "https://${QSS3Region}.amazonaws.com/{{QSS3BucketName}}/{{QSS3KeyPrefix}}scripts/ConfigDC2.ps1"}',
+              sourceInfo: !Sub ['{"path": "https://${QSS3Region}.amazonaws.com/{{QSS3BucketName}}/{{QSS3KeyPrefix}}scripts/ConfigDC2-SSM.ps1"}',
                   {QSS3Region: !If [GovCloudCondition, s3-us-gov-west-1, s3]}]
-              commandLine: "./ConfigDC2.ps1 -ADServer2NetBIOSName {{ADServer2NetBIOSName}} -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -ADServer1PrivateIP {{ADServer1PrivateIP}} -ADAdminSecParam {{ADAdminSecParamName}}"
+              commandLine: "./ConfigDC2-SSM.ps1 -ADServer2NetBIOSName {{ADServer2NetBIOSName}} -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -ADServer1PrivateIP {{ADServer1PrivateIP}} -ADAdminSSMParam {{ADAdminSecParamName}}"
         # Kicks off DSC Configuration and loops\reboots until Node matches Configuration defined in MOF file.
         - name: "configDC2"
           action: aws:runCommand
@@ -626,12 +626,13 @@ Resources:
             Statement:
               - Effect: Allow
                 Action:
-                  - secretsmanager:GetSecretValue
-                  - secretsmanager:DescribeSecret
+                  - ssm:PutParameter
+                  - ssm:DeleteParameter
+                  - ssm:GetParameter
                 Resource: 
-                  - !Ref 'ADAdminSecrets'
-                  - !Ref 'RestoreModeSecrets'
-                  - !Ref 'ADAltUserSecrets'
+                  - !Sub 'arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ADAdminSecrets}'
+                  - !Sub 'arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${RestoreModeSecrets}'
+                  - !Sub 'arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ADAltUserSecrets}'
               - Effect: Allow
                 Action:
                   - ssm:StartAutomationExecution
@@ -643,7 +644,7 @@ Resources:
               - Effect: Allow
                 Action:
                   - iam:PassRole
-                Resource: !Sub 'arn:aws:iam::${AWS::AccountId}:role/${AWSQuickstartADDSRole}'
+                Resource: !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:role/${AWSQuickstartADDSRole}'
           PolicyName: AD-SSM-PassRole
       Path: /
       ManagedPolicyArns:
@@ -664,31 +665,26 @@ Resources:
         - !Ref 'ADServerRole'
       Path: /
   ADAdminSecrets:
-    Type: AWS::SecretsManager::Secret
+    Type: AWS::SSM::Parameter
     Properties:
       Name: !Sub 'ADAdministratorSecret-${AWS::StackName}'
       Description: Administrator Password for AD Quick Start
-      GenerateSecretString:
-        SecretStringTemplate: '{"username": "Administrator"}'
-        GenerateStringKey: "password"
-        PasswordLength: 30
-        ExcludeCharacters: '"@/\'
+      Type: String
+      Value: !Sub '{"username":"Administrator","password":"${AdministratorPassword}"}'
   RestoreModeSecrets:
-    Type: AWS::SecretsManager::Secret
+    Type: AWS::SSM::Parameter
     Properties:
       Name: !Sub 'RestoreModeSecrets-${AWS::StackName}'
       Description: Restore Mode Password for AD Quick Start
-      GenerateSecretString:
-        SecretStringTemplate: '{"username": "Administrator"}'
-        GenerateStringKey: "password"
-        PasswordLength: 30
-        ExcludeCharacters: '"@/\'
+      Type: String
+      Value: !Sub '{"username":"RestoreMode","password":"${RestoreModePassword}"}'
   ADAltUserSecrets:
-    Type: AWS::SecretsManager::Secret
+    Type: AWS::SSM::Parameter
     Properties:
       Name: !Sub 'ADAltUserSecrets-${AWS::StackName}'
       Description: Alternate AD Admin User from AD Quick Start
-      SecretString: !Sub '{"username":"${DomainAdminUser}","password":"${DomainAdminPassword}"}'
+      Type: String
+      Value: !Sub '{"username":"${DomainAdminUser}","password":"${DomainAdminPassword}"}'
   DomainController1:
     Type: AWS::EC2::Instance
     Properties:

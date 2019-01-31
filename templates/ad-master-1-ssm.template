@@ -42,10 +42,12 @@ Metadata:
       - Label:
           default: Microsoft Active Directory Configuration
         Parameters:
+          - AdministratorPassword
           - DomainDNSName
           - DomainNetBIOSName
           - DomainAdminUser
           - DomainAdminPassword
+          - RestoreModePassword
       - Label:
           default: Microsoft Remote Desktop Gateway Configuration
         Parameters:
@@ -56,6 +58,8 @@ Metadata:
           - QSS3BucketName
           - QSS3KeyPrefix
     ParameterLabels:
+      AdministratorPassword:
+        default: Domain Administator Password
       ADServer1InstanceType:
         default: Domain Controller 1 Instance Type
       ADServer1NetBIOSName:
@@ -80,6 +84,8 @@ Metadata:
         default: Domain NetBIOS Name
       KeyPairName:
         default: Key Pair Name
+      RestoreModePassword:
+        default: AD Restore Mode Password
       NumberOfRDGWHosts:
         default: Number of RDGW hosts
       NumberOfAZs:
@@ -107,6 +113,14 @@ Metadata:
       VPCCIDR:
         default: VPC CIDR
 Parameters:
+  AdministratorPassword:
+    AllowedPattern: (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
+    Description: Password for the Domain Administrator Account. User name is Administrator. Must be at least 8 characters
+      containing letters, numbers and symbols
+    MaxLength: '32'
+    MinLength: '8'
+    NoEcho: 'true'
+    Type: String
   ADServer1InstanceType:
     AllowedValues:
       - t2.large
@@ -255,6 +269,14 @@ Parameters:
     Description: CIDR Block for the public DMZ subnet 3 located in Availability Zone
       3
     Type: String
+  RestoreModePassword:
+    AllowedPattern: (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
+    Description: Password for the domain admin user. Must be at least 8 characters
+      containing letters, numbers and symbols
+    MaxLength: '32'
+    MinLength: '8'
+    NoEcho: 'true'
+    Type: String
   QSS3BucketName:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
     ConstraintDescription: Quick Start bucket name can include numbers, lowercase
@@ -297,19 +319,11 @@ Parameters:
     Type: String
 Conditions:
   GovCloudCondition: !Equals [!Ref 'AWS::Region', us-gov-west-1]
-Rules:
-  CheckSupportedInstances:
-    RuleCondition: !Or [!Contains [[m4.large, m4.xlarge, m4.2xlarge, m4.4xlarge],
-        !Ref 'ADServer1InstanceType'], !Contains [[m4.large, m4.xlarge, m4.2xlarge,
-          m4.4xlarge], !Ref 'ADServer2InstanceType']]
-    Assertions:
-      - Assert: !Not [!Contains [[eu-west-3], !Ref 'AWS::Region']]
-        AssertDescription: M4 instances are not available in the Paris region
 Resources:
   VPCStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: !Sub ['https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-aws-vpc/templates/aws-vpc.template',
+      TemplateURL: !Sub ['https://${QSS3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}submodules/quickstart-aws-vpc/templates/aws-vpc.template',
         {QSS3Region: !If [GovCloudCondition, s3-us-gov-west-1, s3]}]
       Parameters:
         AvailabilityZones: !Join [',', !Ref 'AvailabilityZones']
@@ -324,9 +338,10 @@ Resources:
     DependsOn: VPCStack
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: !Sub ['https://${QSS3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}templates/ad-1.template',
+      TemplateURL: !Sub ['https://${QSS3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}templates/ad-1-ssm.template',
         {QSS3Region: !If [GovCloudCondition, s3-us-gov-west-1, s3]}]
       Parameters:
+        AdministratorPassword: !Ref 'AdministratorPassword'
         ADServer1InstanceType: !Ref 'ADServer1InstanceType'
         ADServer1NetBIOSName: !Ref 'ADServer1NetBIOSName'
         ADServer1PrivateIP: !Ref 'ADServer1PrivateIP'
@@ -338,6 +353,7 @@ Resources:
         DomainDNSName: !Ref 'DomainDNSName'
         DomainNetBIOSName: !Ref 'DomainNetBIOSName'
         KeyPairName: !Ref 'KeyPairName'
+        RestoreModePassword: !Ref 'RestoreModePassword'
         PrivateSubnet1ID: !GetAtt 'VPCStack.Outputs.PrivateSubnet1AID'
         PrivateSubnet2ID: !GetAtt 'VPCStack.Outputs.PrivateSubnet2AID'
         QSS3BucketName: !Ref 'QSS3BucketName'

@@ -1,11 +1,11 @@
 [
     {
         "ParameterKey": "ADServer1InstanceType",
-        "ParameterValue": "t2.large"
+        "ParameterValue": "t3.large"
     },
     {
         "ParameterKey": "ADServer1NetBIOSName",
-        "ParameterValue": "DC1-3az"
+        "ParameterValue": "DCMaster1"
     },
     {
         "ParameterKey": "ADServer1PrivateIP",
@@ -13,11 +13,11 @@
     },
     {
         "ParameterKey": "ADServer2InstanceType",
-        "ParameterValue": "t2.large"
+        "ParameterValue": "t3.large"
     },
     {
         "ParameterKey": "ADServer2NetBIOSName",
-        "ParameterValue": "DC2-3az"
+        "ParameterValue": "DCMaster2"
     },
     {
         "ParameterKey": "ADServer2PrivateIP",
@@ -25,10 +25,18 @@
     },
     {
         "ParameterKey": "AvailabilityZones",
-        "ParameterValue": "$[taskcat_genaz_3]"
+        "ParameterValue": "$[taskcat_genaz_2]"
     },
     {
         "ParameterKey": "DomainAdminPassword",
+        "ParameterValue": "$[taskcat_genpass_16]"
+    },
+    {
+        "ParameterKey": "RestoreModePassword",
+        "ParameterValue": "$[taskcat_genpass_16]"
+    },
+    {
+        "ParameterKey": "AdministratorPassword",
         "ParameterValue": "$[taskcat_genpass_16]"
     },
     {
@@ -52,10 +60,6 @@
         "ParameterValue": "1"
     },
     {
-        "ParameterKey": "NumberOfAZs",
-        "ParameterValue": "3"
-    },
-    {
         "ParameterKey": "PrivateSubnet1CIDR",
         "ParameterValue": "10.0.0.0/19"
     },
@@ -64,20 +68,12 @@
         "ParameterValue": "10.0.32.0/19"
     },
     {
-        "ParameterKey": "PrivateSubnet3CIDR",
-        "ParameterValue": "10.0.64.0/19"
-    },
-    {
         "ParameterKey": "PublicSubnet1CIDR",
         "ParameterValue": "10.0.128.0/20"
     },
     {
         "ParameterKey": "PublicSubnet2CIDR",
         "ParameterValue": "10.0.144.0/20"
-    },
-    {
-        "ParameterKey": "PublicSubnet3CIDR",
-        "ParameterValue": "10.0.160.0/20"
     },
     {
         "ParameterKey": "RDGWInstanceType",
@@ -93,6 +89,6 @@
     },
     {
         "ParameterKey": "QSS3BucketName",
-        "ParameterValue": "aws-quickstart"
+        "ParameterValue": "$[taskcat_autobucket]"
     }
 ]
