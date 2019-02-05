@@ -12,7 +12,7 @@ The Quick Start supports three scenarios:
 
 For each scenario, you also have the option to create a new Amazon VPC or use your existing VPC infrastructure.
 
-![Quick Start architecture for AD DS on AWS scenario 1](https://d0.awsstatic.com/partner-network/QuickStart/datasheets/active-directory-ds-on-aws-architecture.png)
+![Quick Start architecture for AD DS on AWS scenario 1](https://d1.awsstatic.com/partner-network/QuickStart/datasheets/active-directory-ds-on-aws-architecture.07dbb3a978cb961e150b746ddf0273e14714bf2b.png)
 
 For architectural details, best practices, step-by-step instructions, and customization options, see the 
 [deployment guide](https://fwd.aws/N6e7B).
