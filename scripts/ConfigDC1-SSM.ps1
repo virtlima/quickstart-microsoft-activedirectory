@@ -281,6 +281,17 @@ Configuration ConfigDC1 {
             DependsOn = "[xADUser]AlternateAdminUser"
         }
 
+        # Ensuring Alternative User is added to Schema Admins Group
+        xADGroup AddAdminToSchemaAdminsGroup {
+            GroupName = "Schema Admins"
+            GroupScope = 'Universal'
+            Category = 'Security'
+            MembersToInclude = @($AltUserPassword.UserName, "Administrator")
+            Ensure = 'Present'
+            Credential = $Credentials
+            DependsOn = "[xADUser]AlternateAdminUser"
+        }
+
         # Setting VPC DNS as a forwarder for AD DNS
         xDnsServerForwarder ForwardtoVPCDNS {
             IsSingleInstance = 'Yes'
