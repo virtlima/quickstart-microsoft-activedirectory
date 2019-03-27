@@ -2,17 +2,17 @@
 ## Active Directory Domain Services (AD DS) on the AWS Cloud
 
 
-This Quick Start deploys Microsoft Active Directory Domain Services (AD DS) on the AWS Cloud. AD DS and Domain Name Server (DNS) are core Windows services that provide the foundation for many Microsoft-based solutions for the enterprise, including Microsoft SharePoint, Microsoft Exchange, and .NET Framework applications.
+This Quick Start deploys Microsoft Active Directory Domain Services (AD DS) on the AWS Cloud and now includes PowerShell Desired State Configuration (DSC) and AWS Systems Manager Automation documents. AD DS and Domain Name Server (DNS) are core Windows services that provide the foundation for many Microsoft-based solutions for the enterprise, including Microsoft SharePoint, Microsoft Exchange, and .NET Framework applications. 
 
 The Quick Start supports three scenarios:
 
-- Deploying a new AWS Cloud-based AD DS environment that you manage yourself
-- Extending your existing on-premises AD DS to the AWS Cloud
-- Deploying AD DS with AWS Directory Service
+- Scenario 1: Deploying a new AWS Cloud-based AD DS environment that you manage yourself
+- Scenario 2: Extending your existing on-premises AD DS to the AWS Cloud
+- Scenario 3: Deploying AD DS with AWS Directory Service
 
 For each scenario, you also have the option to create a new Amazon VPC or use your existing VPC infrastructure.
 
-![Quick Start architecture for AD DS on AWS](https://d0.awsstatic.com/partner-network/QuickStart/datasheets/active-directory-ds-on-aws-architecture.png)
+![Quick Start architecture for AD DS on AWS scenario 1](https://d1.awsstatic.com/partner-network/QuickStart/datasheets/active-directory-ds-on-aws-architecture.07dbb3a978cb961e150b746ddf0273e14714bf2b.png)
 
 For architectural details, best practices, step-by-step instructions, and customization options, see the 
 [deployment guide](https://fwd.aws/N6e7B).

@@ -111,8 +111,7 @@ Configuration ConfigDC1 {
         }
         
         # Disabling DHCP on the Primary Interface
-        DhcpClient DisableDhcpClient {
-            State          = 'Disabled'
+        NetIPInterface DisableDhcp {
             InterfaceAlias = 'Primary'
             AddressFamily  = 'IPv4'
             DependsOn = '[NetAdapterName]RenameNetAdapterPrimary'
@@ -264,6 +263,17 @@ Configuration ConfigDC1 {
         # Ensuring Alternative User is added to Enterprise Admins Group
         xADGroup AddAdminToEnterpriseAdminsGroup {
             GroupName = "Enterprise Admins"
+            GroupScope = 'Universal'
+            Category = 'Security'
+            MembersToInclude = @($AltUserPassword.UserName, "Administrator")
+            Ensure = 'Present'
+            Credential = $Credentials
+            DependsOn = "[xADUser]AlternateAdminUser"
+        }
+
+        # Ensuring Alternative User is added to Schema Admins Group
+        xADGroup AddAdminToSchemaAdminsGroup {
+            GroupName = "Schema Admins"
             GroupScope = 'Universal'
             Category = 'Security'
             MembersToInclude = @($AltUserPassword.UserName, "Administrator")
