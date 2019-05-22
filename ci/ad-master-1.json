@@ -1,19 +1,11 @@
 [
     {
-        "ParameterKey": "ADServer1InstanceType",
-        "ParameterValue": "t2.large"
-    },
-    {
         "ParameterKey": "ADServer1NetBIOSName",
         "ParameterValue": "DCMaster1"
     },
     {
         "ParameterKey": "ADServer1PrivateIP",
         "ParameterValue": "10.0.0.10"
-    },
-    {
-        "ParameterKey": "ADServer2InstanceType",
-        "ParameterValue": "t2.large"
     },
     {
         "ParameterKey": "ADServer2NetBIOSName",
@@ -30,10 +22,6 @@
     {
         "ParameterKey": "DomainAdminPassword",
         "ParameterValue": "$[taskcat_genpass_16]"
-    },
-    {
-        "ParameterKey": "DomainAdminUser",
-        "ParameterValue": "StackAdmin"
     },
     {
         "ParameterKey": "DomainDNSName",
