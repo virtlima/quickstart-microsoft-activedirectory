@@ -27,7 +27,7 @@ Metadata:
           - ADServer2NetBIOSName
           - ADServer2PrivateIP
           - KeyPairName
-          - WS2016FULLBASE
+          - WINFULLBASE
       - Label:
           default: Microsoft Active Directory Configuration
         Parameters:
@@ -63,7 +63,7 @@ Metadata:
         default: Domain NetBIOS Name
       KeyPairName:
         default: Key Pair Name
-      WS2016FULLBASE:
+      WINFULLBASE:
         default: SSM Parameter Value to grab the lastest AMI ID
       PrivateSubnet1ID:
         default: Private Subnet 1 ID
@@ -90,7 +90,7 @@ Parameters:
       - m5.xlarge
       - m5.2xlarge
       - m5.4xlarge
-    Default: m4.xlarge
+    Default: m5.xlarge
     Description: Amazon EC2 instance type for the first Active Directory instance
     Type: String
   ADServer1NetBIOSName:
@@ -118,7 +118,7 @@ Parameters:
       - m5.xlarge
       - m5.2xlarge
       - m5.4xlarge
-    Default: m4.xlarge
+    Default: m5.xlarge
     Description: Amazon EC2 instance type for the second Active Directory instance
     Type: String
   ADServer2NetBIOSName:
@@ -204,7 +204,7 @@ Parameters:
   VPCID:
     Description: ID of the VPC (e.g., vpc-0343606e)
     Type: AWS::EC2::VPC::Id
-  WS2016FULLBASE:
+  WINFULLBASE:
     Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
     Default: '/aws/service/ami-windows-latest/Windows_Server-2019-English-Full-Base'
 Rules:
@@ -694,11 +694,11 @@ Resources:
     Properties:
       Name: !Sub 'ADAltUserSecrets-${AWS::StackName}'
       Description: Alternate AD Admin User from AD Quick Start
-      SecretString: !Sub '{"username":"${DomainAdminUser}","password":"${DomainAdminPassword}"}'
+      SecretString: !Sub '{ "username" : "${DomainAdminUser}", "password" : "${DomainAdminPassword}" }'
   DomainController1:
     Type: AWS::EC2::Instance
     Properties:
-      ImageId: !Ref 'WS2016FULLBASE'
+      ImageId: !Ref 'WINFULLBASE'
       IamInstanceProfile: !Ref 'ADServerProfile'
       InstanceType: !Ref 'ADServer1InstanceType'
       SubnetId: !Ref 'PrivateSubnet1ID'
@@ -722,7 +722,7 @@ Resources:
         Timeout: PT60M
         Count: 1
     Properties:
-      ImageId: !Ref 'WS2016FULLBASE'
+      ImageId: !Ref 'WINFULLBASE'
       IamInstanceProfile: !Ref 'ADServerProfile'
       InstanceType: !Ref 'ADServer2InstanceType'
       SubnetId: !Ref 'PrivateSubnet2ID'
@@ -1017,5 +1017,6 @@ Outputs:
   DomainMemberSGID:
     Value: !Ref 'DomainMembersSG'
     Description: Domain Member Security Group ID
-  SecretsArn:
+  ADSecretsArn:
     Value: !Ref 'ADAltUserSecrets'
+    Description: Alternate AD User Secrets ARN

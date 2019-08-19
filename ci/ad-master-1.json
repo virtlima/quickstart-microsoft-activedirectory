@@ -12,10 +12,6 @@
         "ParameterValue": "10.0.0.10"
     },
     {
-        "ParameterKey": "ADServer2InstanceType",
-        "ParameterValue": "t3.large"
-    },
-    {
         "ParameterKey": "ADServer2NetBIOSName",
         "ParameterValue": "DC2"
     },
