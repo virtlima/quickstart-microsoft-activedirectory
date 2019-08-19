@@ -340,6 +340,8 @@ Resources:
             Filters:  
             - Name: "tag:Name"
               Values: [ "{{ADServer1NetBIOSName}}","{{ADServer2NetBIOSName}}" ]
+            - Name: "tag:aws:cloudformation:stack-name"
+              Values: ["{{StackName}}"]
             - Name: "instance-state-name"
               Values: [ "running" ]
           outputs:
@@ -391,6 +393,8 @@ Resources:
             Filters:  
             - Name: "tag:Name"
               Values: [ "{{ADServer1NetBIOSName}}" ]
+            - Name: "tag:aws:cloudformation:stack-name"
+              Values: ["{{StackName}}"]
             - Name: "instance-state-name"
               Values: [ "running" ]
           outputs:
@@ -453,6 +457,8 @@ Resources:
             Filters:  
             - Name: "tag:Name"
               Values: [ "{{ADServer2NetBIOSName}}" ]
+            - Name: "tag:aws:cloudformation:stack-name"
+              Values: ["{{StackName}}"]
             - Name: "instance-state-name"
               Values: [ "running" ]
           outputs:
