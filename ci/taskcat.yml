@@ -35,11 +35,6 @@ tests:
       - us-east-1
       - us-west-2
     template_file: ad-master-1.template
-  master1-ad-ssm:
-    parameter_input: ad-master-1-ssm.json
-    regions:
-      - eu-west-3
-    template_file: ad-master-1-ssm.template
   master2-ad:
     parameter_input: ad-master-2.json
     regions:
