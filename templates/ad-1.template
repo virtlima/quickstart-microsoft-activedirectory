@@ -206,7 +206,7 @@ Parameters:
     Type: AWS::EC2::VPC::Id
   WS2016FULLBASE:
     Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
-    Default: '/aws/service/ami-windows-latest/Windows_Server-2016-English-Full-Base'
+    Default: '/aws/service/ami-windows-latest/Windows_Server-2019-English-Full-Base'
 Rules:
   SubnetsInVPC:
     Assertions:
@@ -340,6 +340,8 @@ Resources:
             Filters:  
             - Name: "tag:Name"
               Values: [ "{{ADServer1NetBIOSName}}","{{ADServer2NetBIOSName}}" ]
+            - Name: "tag:aws:cloudformation:stack-name"
+              Values: ["{{StackName}}"]
             - Name: "instance-state-name"
               Values: [ "running" ]
           outputs:
@@ -391,6 +393,8 @@ Resources:
             Filters:  
             - Name: "tag:Name"
               Values: [ "{{ADServer1NetBIOSName}}" ]
+            - Name: "tag:aws:cloudformation:stack-name"
+              Values: ["{{StackName}}"]
             - Name: "instance-state-name"
               Values: [ "running" ]
           outputs:
@@ -453,6 +457,8 @@ Resources:
             Filters:  
             - Name: "tag:Name"
               Values: [ "{{ADServer2NetBIOSName}}" ]
+            - Name: "tag:aws:cloudformation:stack-name"
+              Values: ["{{StackName}}"]
             - Name: "instance-state-name"
               Values: [ "running" ]
           outputs:
