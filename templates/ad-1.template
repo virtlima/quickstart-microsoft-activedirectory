@@ -797,6 +797,18 @@ Resources:
           FromPort: 3389
           ToPort: 3389
           CidrIp: !Ref VPCCIDR
+        - IpProtocol: tcp
+          FromPort: 445
+          ToPort: 445
+          CidrIp: !Ref VPCCIDR
+        - IpProtocol: tcp
+          FromPort: 139
+          ToPort: 139
+          CidrIp: !Ref VPCCIDR
+        - IpProtocol: icmp
+          FromPort: -1
+          ToPort: -1
+          CidrIp: !Ref VPCCIDR
         - IpProtocol: udp
           FromPort: 123
           ToPort: 123
