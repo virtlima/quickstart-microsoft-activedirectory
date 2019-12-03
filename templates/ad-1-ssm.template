@@ -704,7 +704,7 @@ Resources:
       BlockDeviceMappings:
         - DeviceName: /dev/sda1
           Ebs:
-            VolumeSize: '100'
+            VolumeSize: 100
             VolumeType: gp2
       SecurityGroupIds:
         - !Ref 'DomainControllersSG'
@@ -728,7 +728,7 @@ Resources:
       BlockDeviceMappings:
         - DeviceName: /dev/sda1
           Ebs:
-            VolumeSize: '100'
+            VolumeSize: 100
             VolumeType: gp2
       SecurityGroupIds:
         - !Ref 'DomainControllersSG'
@@ -998,7 +998,7 @@ Resources:
     Properties:
       Description: Security Group Rule between Domain Controllers 
       GroupId: !Ref DomainControllersSG
-      IpProtocol: -1 
+      IpProtocol: '-1' 
       FromPort: -1 
       ToPort: -1 
       SourceSecurityGroupId: !Ref DomainControllersSG
