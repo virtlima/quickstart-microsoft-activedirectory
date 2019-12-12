@@ -1032,3 +1032,9 @@ Outputs:
   ADSecretsArn:
     Value: !Ref 'ADAltUserSecrets'
     Description: Alternate AD User Secrets ARN
+  DC1InstanceId:
+    Value: !Ref 'DomainController1'
+    Description: DomainController 1 instance ID
+  DC2InstanceId:
+    Value: !Ref 'DomainController2'
+    Description: DomainController 2 instance ID
