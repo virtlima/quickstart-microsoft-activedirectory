@@ -121,12 +121,8 @@ Configuration ConfigDC1 {
         }
         
         # Disabling DHCP on the Primary Interface
-<<<<<<< HEAD
-        DhcpClient DisableDhcpClient {
-            State          = 'Disabled'
-=======
         NetIPInterface DisableDhcp {
->>>>>>> a57ca09756fd641da77125e7111d11584009fdc9
+            Dhcp           = 'Disabled'
             InterfaceAlias = 'Primary'
             AddressFamily  = 'IPv4'
             DependsOn = '[NetAdapterName]RenameNetAdapterPrimary'

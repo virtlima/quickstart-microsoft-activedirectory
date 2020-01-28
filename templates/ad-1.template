@@ -708,7 +708,7 @@ Resources:
       BlockDeviceMappings:
         - DeviceName: /dev/sda1
           Ebs:
-            VolumeSize: '100'
+            VolumeSize: 100
             VolumeType: gp2
       SecurityGroupIds:
         - !Ref 'DomainControllersSG'
@@ -732,7 +732,7 @@ Resources:
       BlockDeviceMappings:
         - DeviceName: /dev/sda1
           Ebs:
-            VolumeSize: '100'
+            VolumeSize: 100
             VolumeType: gp2
       SecurityGroupIds:
         - !Ref 'DomainControllersSG'
@@ -802,6 +802,18 @@ Resources:
         - IpProtocol: tcp
           FromPort: 3389
           ToPort: 3389
+          CidrIp: !Ref VPCCIDR
+        - IpProtocol: tcp
+          FromPort: 445
+          ToPort: 445
+          CidrIp: !Ref VPCCIDR
+        - IpProtocol: tcp
+          FromPort: 139
+          ToPort: 139
+          CidrIp: !Ref VPCCIDR
+        - IpProtocol: icmp
+          FromPort: -1
+          ToPort: -1
           CidrIp: !Ref VPCCIDR
         - IpProtocol: udp
           FromPort: 123
@@ -1002,7 +1014,7 @@ Resources:
     Properties:
       Description: Security Group Rule between Domain Controllers 
       GroupId: !Ref DomainControllersSG
-      IpProtocol: -1 
+      IpProtocol: '-1' 
       FromPort: -1 
       ToPort: -1 
       SourceSecurityGroupId: !Ref DomainControllersSG
@@ -1020,3 +1032,9 @@ Outputs:
   ADSecretsArn:
     Value: !Ref 'ADAltUserSecrets'
     Description: Alternate AD User Secrets ARN
+  DC1InstanceId:
+    Value: !Ref 'DomainController1'
+    Description: DomainController 1 instance ID
+  DC2InstanceId:
+    Value: !Ref 'DomainController2'
+    Description: DomainController 2 instance ID

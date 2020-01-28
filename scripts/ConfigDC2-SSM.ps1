@@ -82,6 +82,7 @@ Configuration ConfigDC2 {
 
         # Disabling DHCP on the Primary Interface
         NetIPInterface DisableDhcp {
+            Dhcp           = 'Disabled'
             InterfaceAlias = 'Primary'
             AddressFamily  = 'IPv4'
             DependsOn = '[NetAdapterName]RenameNetAdapterPrimary'
