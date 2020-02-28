@@ -232,6 +232,7 @@ Resources:
         DomainDNSName: !Ref 'DomainDNSName'
         DomainNetBIOSName: !Ref 'DomainNetBIOSName'
         ADEdition: !Ref 'ADEdition'
+        KeyPairName: !Ref 'KeyPairName'
         PrivateSubnet1CIDR: !Ref 'PrivateSubnet1CIDR'
         PrivateSubnet1ID: !GetAtt 'VPCStack.Outputs.PrivateSubnet1AID'
         PrivateSubnet2CIDR: !Ref 'PrivateSubnet2CIDR'
