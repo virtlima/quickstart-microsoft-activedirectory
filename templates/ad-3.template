@@ -643,7 +643,8 @@ Resources:
                   cfnresponse.send(event, context, SUCCESS, start_automation, start_automation['AutomationExecutionId'])
               
               def delete_image(event):
-                  print('Nothing to Do')
+                  cfnresponse.send(event, context, SUCCESS, event, "Deleted")
+
               actions = {
                   'Create': start_ssmautomation,
                   'Delete': delete_image,
