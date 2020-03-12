@@ -589,12 +589,7 @@ Resources:
                  - arn:${AWS::Partition}:s3:::${BucketName}/${QSS3KeyPrefix}*
                  - BucketName: !If
                    - UsingDefaultBucket
-                   - !Sub
-                     - '${QSS3BucketName}-${S3Region}'
-                     - S3Region: !If
-                       - UsingDefaultBucket
-                       - !Ref AWS::Region
-                       - !Ref QSS3BucketRegion
+                   - !Sub '${QSS3BucketName}-${AWS::Region}'
                    - !Ref QSS3BucketName
                 Effect: Allow
           PolicyName: aws-quick-start-s3-policy

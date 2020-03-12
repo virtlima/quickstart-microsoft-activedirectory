@@ -35,6 +35,7 @@ Metadata:
           default: AWS Quick Start Configuration
         Parameters:
           - QSS3BucketName
+          - QSS3BucketRegion
           - QSS3KeyPrefix
     ParameterLabels:
       ADServer1InstanceType:
@@ -67,6 +68,8 @@ Metadata:
         default: Public Subnet 2 CIDR
       QSS3BucketName:
         default: Quick Start S3 Bucket Name
+      QSS3BucketRegion:
+        default: Quick Start S3 Bucket Region
       QSS3KeyPrefix:
         default: Quick Start S3 Key Prefix
       VPCCIDR:
@@ -165,6 +168,10 @@ Parameters:
       can include numbers, lowercase letters, uppercase letters, and hyphens (-).
       It cannot start or end with a hyphen (-).
     Type: String
+  QSS3BucketRegion:
+    Default: us-east-1
+    Description: The AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value.
+    Type: String
   QSS3KeyPrefix:
     AllowedPattern: ^[0-9a-zA-Z-/]*$
     ConstraintDescription: Quick Start key prefix can include numbers, lowercase letters,
@@ -196,6 +203,7 @@ Conditions:
   GovCloudCondition: !Equals
     - !Ref 'AWS::Region'
     - us-gov-west-1
+  UsingDefaultBucket: !Equals [!Ref QSS3BucketName, 'aws-quickstart']
 Resources:
   ADServerRole:
     Type: AWS::IAM::Role
@@ -207,11 +215,11 @@ Resources:
               - Action:
                   - s3:GetObject
                 Resource: !Sub
-                  - arn:${Partition}:s3:::${QSS3BucketName}/${QSS3KeyPrefix}*
-                  - Partition: !If
-                      - GovCloudCondition
-                      - aws-us-gov
-                      - aws
+                 - arn:${AWS::Partition}:s3:::${BucketName}/${QSS3KeyPrefix}*
+                 - BucketName: !If
+                   - UsingDefaultBucket
+                   - !Sub '${QSS3BucketName}-${AWS::Region}'
+                   - !Ref QSS3BucketName
                 Effect: Allow
           PolicyName: aws-quick-start-s3-policy
       Path: /
@@ -237,8 +245,10 @@ Resources:
         S3AccessCreds:
           type: S3
           roleName: !Ref 'ADServerRole'
-          buckets:
-            - !Ref 'QSS3BucketName'
+          buckets: !If
+            - UsingDefaultBucket
+            - !Sub ${QSS3BucketName}-${S3Region}
+            - !Ref QSS3BucketName
       AWS::CloudFormation::Init:
         configSets:
           config:
