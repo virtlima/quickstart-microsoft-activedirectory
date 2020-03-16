@@ -247,7 +247,7 @@ Resources:
           roleName: !Ref 'ADServerRole'
           buckets: !If
             - UsingDefaultBucket
-            - !Sub ${QSS3BucketName}-${S3Region}
+            - !Sub ${QSS3BucketName}-${QSS3BucketRegion}
             - !Ref QSS3BucketName
       AWS::CloudFormation::Init:
         configSets:
