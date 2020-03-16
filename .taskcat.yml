@@ -71,7 +71,6 @@ tests:
       QSS3BucketRegion: $[taskcat_current_region]
     regions:
     - ap-northeast-1
-    - ap-northeast-2
     - ca-central-1
     - eu-central-1
     template: templates/ad-master-2.template
