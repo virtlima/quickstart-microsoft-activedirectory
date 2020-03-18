@@ -537,8 +537,17 @@ Resources:
               CloudWatchLogGroupName: !Ref 'QuickStartLogs'
             Parameters:
               sourceType: "S3"
-              sourceInfo: !Sub ['{"path": "https://{{QSS3BucketName}}.s3.{{QSS3BucketRegion}}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/AddDNSForward.ps1"}',
-                  {QSS3Region: !If [GovCloudCondition, s3-us-gov-west-1, s3]}]
+              sourceInfo: 
+                !Sub 
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/AddDNSForward.ps1"}'
+                  - S3Bucket: !If
+                      - UsingDefaultBucket
+                      - !Sub '${QSS3BucketName}-${AWS::Region}'
+                      - !Ref QSS3BucketName
+                    S3Region: !If 
+                      - UsingDefaultBucket
+                      - !Ref AWS::Region
+                      - !Ref QSS3BucketRegion
               commandLine: "./AddDNSForward.ps1 -DirectoryID {{DirectoryID}} -VPCCIDR {{VPCCIDR}} -AWSRegion {{AWSRegion}}"
         # Determines if CFN Needs to be Signaled or if Work flow should just end
         - name: CFNSignalEnd
