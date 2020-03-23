@@ -285,6 +285,14 @@ Resources:
           FromPort: 3389
           ToPort: 3389
           CidrIp: !Ref 'PublicSubnet2CIDR'
+        - IpProtocol: tcp
+          FromPort: 636
+          ToPort: 636
+          CidrIp: !Ref VPCCIDR
+        - IpProtocol: tcp
+          FromPort: 3269
+          ToPort: 3269
+          CidrIp: !Ref VPCCIDR
   SSMAutomationRole:
     Type: AWS::IAM::Role
     Properties:
