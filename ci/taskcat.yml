@@ -24,11 +24,10 @@ tests:
     parameter_input: ad-master-1.json
     regions:
       - ap-northeast-2
-      - ca-central-1
+#      - ca-central-1
       - eu-west-1
       - ap-south-1
       - us-east-2
-      - us-west-1
       - ap-northeast-1
       - eu-west-2
       - eu-central-1
@@ -50,8 +49,8 @@ tests:
     parameter_input: ad-master-3-Ent.json
     regions:
       - us-east-1
-      - ca-central-1
-      - eu-west-2
+#      - ca-central-1
+#      - eu-west-2
       - ap-southeast-2
     template_file: ad-master-3.template
   master3-ad-std:
@@ -62,9 +61,9 @@ tests:
       - eu-west-1
       - ap-southeast-1
     template_file: ad-master-3.template
-  master1-ad-ssm:
-    parameter_input: ad-master-1-ssm.json
-    regions:
-      - eu-west-3
-      - us-east-1
-    template_file: ad-master-1-ssm.template
+#  master1-ad-ssm:
+#    parameter_input: ad-master-1-ssm.json
+#    regions:
+#      - eu-west-3
+#      - us-east-1
+#    template_file: ad-master-1-ssm.template
