@@ -649,7 +649,7 @@ Resources:
               - Effect: Allow
                 Action:
                   - iam:PassRole
-                Resource: !Sub 'arn:aws:iam::${AWS::AccountId}:role/${AWSQuickstartADDSRole}'
+                Resource: !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:role/${AWSQuickstartADDSRole}'
           PolicyName: AD-SSM-PassRole
       Path: /
       ManagedPolicyArns:
