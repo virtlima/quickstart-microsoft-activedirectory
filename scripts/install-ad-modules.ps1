@@ -1,8 +1,9 @@
 [CmdletBinding()]
 param()
 
-"Setting Execution Policy to Remote Signed"
-Set-ExecutionPolicy RemoteSigned -Force
+#"Setting Execution Policy to Remote Signed"
+#Set-ExecutionPolicy RemoteSigned -Force
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 "Setting up Powershell Gallery to Install DSC Modules"
 Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5 -Force
