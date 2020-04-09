@@ -214,6 +214,7 @@ Resources:
             Statement:
               - Action:
                   - s3:GetObject
+                  - s3:ListBucket
                 Resource: !Sub
                  - arn:${AWS::Partition}:s3:::${BucketName}/${QSS3KeyPrefix}*
                  - BucketName: !If

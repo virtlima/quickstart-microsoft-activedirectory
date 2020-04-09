@@ -635,6 +635,7 @@ Resources:
             Statement:
               - Action:
                   - s3:GetObject
+                  - s3:ListBucket
                 Resource: "*"
                 Effect: Allow
           PolicyName: aws-quick-start-s3-policy
@@ -685,6 +686,7 @@ Resources:
             Statement:
               - Action:
                   - s3:GetObject
+                  - s3:ListBucket
                 Resource: "*"
                 Effect: Allow
           PolicyName: aws-quick-start-s3-policy
