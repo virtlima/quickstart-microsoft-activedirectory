@@ -4,13 +4,13 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$ADServer1NetBIOSName,
     
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$false)]
     [string]$ADServer2NetBIOSName,
 
     [Parameter(Mandatory=$true)]
     [string]$ADServer1PrivateIP,
 
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$false)]
     [string]$ADServer2PrivateIP,
 
     [Parameter(Mandatory=$true)]

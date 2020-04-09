@@ -1,0 +1,219 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: "Deploy MOF Authoring Server"
+Parameters:
+  LatestAmiId:
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Default: "/aws/service/ami-windows-latest/Windows_Server-2019-English-Full-Base"
+  DSCBucket:
+    Default: "alpublic"
+    Description: S3 bucket name for the MOF files.
+    Type: String
+  PrivSubnetID1:
+    Description: ID of a Subnet.
+    Type: AWS::EC2::Subnet::Id
+  PrivSubnetID2:
+    Description: ID of a Subnet.
+    Type: AWS::EC2::Subnet::Id
+  PubSubnetID1:
+    Description: ID of a Subnet.
+    Type: AWS::EC2::Subnet::Id
+  PubSubnetID2:
+    Description: ID of a Subnet.
+    Type: AWS::EC2::Subnet::Id
+  DomainJoinSecrets:
+    Description: ARN for AD Credentials in Secrets Manager.
+    Type: String
+  DomainMembersSG:
+    Description: Domain Member Security Group.
+    Type: String
+  DomainDNSName:
+    AllowedPattern: '[a-zA-Z0-9\-]+\..+'
+    Default: example.com
+    Description: Fully qualified domain name (FQDN) of the forest root domain e.g.
+      example.com
+    MaxLength: '255'
+    MinLength: '2'
+    Type: String
+  ASGSize:
+    Default: "2"
+    Description: Minimum Number of ASG Nodes
+    Type: String
+  ASGInstanceType:
+    AllowedValues:
+      - t3.small
+      - t3.medium
+      - t3.large
+      - t3.xlarge
+      - t3.2xlarge
+      - m5.large
+      - m5.xlarge
+      - m5.2xlarge
+      - m5.4xlarge
+      - m5.8xlarge
+    Default: m5.xlarge
+    Description: Amazon EC2 instance type for the Auto-Scaling Group
+    Type: String
+  WebSrvInstanceType:
+    AllowedValues:
+      - t3.small
+      - t3.medium
+      - t3.large
+      - t3.xlarge
+      - t3.2xlarge
+      - m5.large
+      - m5.xlarge
+      - m5.2xlarge
+      - m5.4xlarge
+      - m5.8xlarge
+    Default: m5.xlarge
+    Description: Amazon EC2 instance type for the Web Servers
+    Type: String  
+Resources:
+  WebServerRole: 
+    Type : AWS::IAM::Role
+    Properties:
+      Policies:
+        - PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                Resource: !Sub 'arn:${AWS::Partition}:s3:::${DSCBucket}/*'
+                Effect: Allow
+          PolicyName: s3-mof-policy
+        - PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                  - s3:GetObject
+                Resource: 
+                  - !Sub 'arn:aws:s3:::aws-ssm-${AWS::Region}/*'
+                  - !Sub 'arn:aws:s3:::aws-windows-downloads-${AWS::Region}/*'
+                  - !Sub 'arn:aws:s3:::amazon-ssm-${AWS::Region}/*'
+                  - !Sub 'arn:aws:s3:::amazon-ssm-packages-${AWS::Region}/*'
+                  - !Sub 'arn:aws:s3:::${AWS::Region}-birdwatcher-prod/*'
+                  - !Sub 'arn:aws:s3:::patch-baseline-snapshot-${AWS::Region}/*'
+                Effect: Allow
+          PolicyName: ssm-custom-s3-policy
+        - PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - secretsmanager:GetSecretValue
+                  - secretsmanager:DescribeSecret
+                Resource: 
+                  - !Ref 'DomainJoinSecrets'
+          PolicyName: Secrets-Policy
+        - PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ec2:CreateTags
+                Resource: !Sub 'arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:instance/*'
+          PolicyName: Tags-Policy
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        - Effect: "Allow"
+          Principal:
+            Service:
+            - "ec2.amazonaws.com"
+            - "ssm.amazonaws.com"
+          Action: "sts:AssumeRole"
+      ManagedPolicyArns:
+        - !Sub 'arn:${AWS::Partition}:iam::aws:policy/AmazonSSMManagedInstanceCore'
+        - !Sub 'arn:${AWS::Partition}:iam::aws:policy/AmazonEC2ReadOnlyAccess'
+  IamInstanceProfile:
+    Type: "AWS::IAM::InstanceProfile"
+    Properties:
+      Roles:
+      - !Ref WebServerRole
+  WebServer1:
+    Type: "AWS::EC2::Instance"
+    Properties:
+      ImageId: !Ref LatestAmiId
+      InstanceType: !Ref 'WebSrvInstanceType'
+      IamInstanceProfile: !Ref IamInstanceProfile
+      NetworkInterfaces:
+        - DeleteOnTermination: true
+          DeviceIndex: '0'
+          SubnetId: !Ref 'PubSubnetID1'
+          GroupSet:
+            - !Ref DomainMembersSG
+      Tags:
+      - Key: "Name"
+        Value: "WebServer1"
+      - Key: "DomainToJoin"
+        Value: !Ref "DomainDNSName"
+  WebServer2:
+    Type: "AWS::EC2::Instance"
+    Properties:
+      ImageId: !Ref LatestAmiId
+      InstanceType: !Ref 'WebSrvInstanceType'
+      IamInstanceProfile: !Ref IamInstanceProfile
+      NetworkInterfaces:
+        - DeleteOnTermination: true
+          DeviceIndex: '0'
+          SubnetId: !Ref 'PubSubnetID2'
+          GroupSet:
+            - !Ref DomainMembersSG
+      Tags:
+      - Key: "Name"
+        Value: "WebServer2"
+      - Key: "DomainToJoin"
+        Value: !Ref "DomainDNSName"
+  DomainAutoScalingGroup:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      LaunchConfigurationName: !Ref 'DomainLaunchConfiguration'
+      VPCZoneIdentifier:
+        - !Ref 'PrivSubnetID1'
+        - !Ref 'PrivSubnetID2'
+      MinSize: !Ref 'ASGSize'
+      MaxSize: !Ref 'ASGSize'
+      Cooldown: '300'
+      DesiredCapacity: !Ref 'ASGSize'
+      Tags:
+      - Key: "DomainToJoin"
+        Value: !Ref "DomainDNSName"
+        PropagateAtLaunch: "true"
+  DomainLaunchConfiguration:
+    Type: AWS::AutoScaling::LaunchConfiguration
+    Properties:
+      ImageId: !Ref 'LatestAmiId'
+      SecurityGroups:
+        - !Ref 'DomainMembersSG'
+      IamInstanceProfile: !Ref 'IamInstanceProfile'
+      InstanceType: !Ref 'ASGInstanceType'
+      BlockDeviceMappings:
+        - DeviceName: /dev/sda1
+          Ebs:
+            VolumeSize: 50
+            VolumeType: gp2
+      UserData: !Base64
+        Fn::Join:
+          - ''
+          - - "<powershell>\n"
+            - 'Import-Module AWSPowerShell'
+            - "\n"
+            - '$tag = New-Object Amazon.EC2.Model.Tag'
+            - "\n"
+            - '$tag.Key = "Name"'
+            - "\n"
+            - '$tag.Value = $env:COMPUTERNAME'
+            - "\n"
+            - '$instanceid = (Invoke-RestMethod -Method Get -Uri http://169.254.169.254/latest/meta-data/instance-id)'
+            - "\n"
+            - 'New-EC2Tag -Resource $instanceid -Tag $tag'
+            - "\n"
+            - "</powershell>\n"
+Outputs:
+  WebServer1Public:
+    Value: !GetAtt 'WebServer1.PublicDnsName'
+    Description: Public DNS for WebServer1
+  WebServer2Public:
+    Value: !GetAtt 'WebServer2.PublicDnsName'
+    Description: Public DNS for WebServer2
