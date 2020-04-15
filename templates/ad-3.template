@@ -188,9 +188,6 @@ Rules:
         AssertDescription: All subnets must in the VPC
 Conditions:
   UsingDefaultBucket: !Equals [!Ref QSS3BucketName, 'aws-quickstart']
-  GovCloudCondition: !Equals
-    - !Ref 'AWS::Region'
-    - us-gov-west-1
 Resources:
   QuickStartLogs:
     Type: AWS::Logs::LogGroup
@@ -484,9 +481,9 @@ Resources:
                         PolicyName: s3-instance-bucket-policy
                     Path: /
                     ManagedPolicyArns:
-                    - !Sub 'arn:${AWS::Partition}:iam::aws:policy/AmazonSSMManagedInstanceCore'
-                    - !Sub 'arn:${AWS::Partition}:iam::aws:policy/CloudWatchAgentServerPolicy'
-                    - !Sub 'arn:${AWS::Partition}:iam::aws:policy/AWSDirectoryServiceFullAccess'
+                      - !Sub 'arn:${AWS::Partition}:iam::aws:policy/AmazonSSMManagedInstanceCore'
+                      - !Sub 'arn:${AWS::Partition}:iam::aws:policy/CloudWatchAgentServerPolicy'
+                      - !Sub 'arn:${AWS::Partition}:iam::aws:policy/AWSDirectoryServiceFullAccess'
                     AssumeRolePolicyDocument:
                       Version: "2012-10-17"
                       Statement:

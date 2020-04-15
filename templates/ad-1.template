@@ -245,9 +245,6 @@ Rules:
         AssertDescription: M4 instances are not available in the Paris region
 Conditions:
   UsingDefaultBucket: !Equals [!Ref QSS3BucketName, 'aws-quickstart']
-  GovCloudCondition: !Equals
-    - !Ref 'AWS::Region'
-    - us-gov-west-1
 Resources:
   QuickStartLogs:
     Type: AWS::Logs::LogGroup
@@ -637,10 +634,24 @@ Resources:
                   - s3:GetObject
                   - s3:ListBucket
                 Resource:
-                  - !Sub 'arn:${AWS::Partition}:s3:::${QSS3BucketName}/${QSS3KeyPrefix}*'
-                  - !Sub 'arn:${AWS::Partition}:s3:::${QSS3BucketName}'
+                  - !Sub ['arn:${AWS::Partition}:s3:::${S3Bucket}-${AWS::Region}/${QSS3KeyPrefix}*', S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]]
+                  - !Sub ['arn:${AWS::Partition}:s3:::${S3Bucket}-${AWS::Region}', S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]]
                 Effect: Allow
           PolicyName: aws-quick-start-s3-policy
+        - PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                  - s3:GetObject
+                Resource: 
+                  - !Sub 'arn:aws:s3:::aws-ssm-${AWS::Region}/*'
+                  - !Sub 'arn:aws:s3:::aws-windows-downloads-${AWS::Region}/*'
+                  - !Sub 'arn:aws:s3:::amazon-ssm-${AWS::Region}/*'
+                  - !Sub 'arn:aws:s3:::amazon-ssm-packages-${AWS::Region}/*'
+                  - !Sub 'arn:aws:s3:::${AWS::Region}-birdwatcher-prod/*'
+                  - !Sub 'arn:aws:s3:::patch-baseline-snapshot-${AWS::Region}/*'
+                Effect: Allow
+          PolicyName: ssm-custom-s3-policy
         - PolicyDocument:
             Version: '2012-10-17'
             Statement:
@@ -690,8 +701,8 @@ Resources:
                   - s3:GetObject
                   - s3:ListBucket
                 Resource:
-                  - !Sub arn:${AWS::Partition}:s3:::${QSS3BucketName}/${QSS3KeyPrefix}*
-                  - !Sub arn:${AWS::Partition}:s3:::${QSS3BucketName}
+                  - !Sub ['arn:${AWS::Partition}:s3:::${S3Bucket}-${AWS::Region}/${QSS3KeyPrefix}*', S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]]
+                  - !Sub ['arn:${AWS::Partition}:s3:::${S3Bucket}-${AWS::Region}', S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]]
                 Effect: Allow
           PolicyName: aws-quick-start-s3-policy
         - PolicyDocument:
