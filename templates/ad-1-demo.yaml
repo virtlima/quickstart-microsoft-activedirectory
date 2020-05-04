@@ -879,17 +879,11 @@ Resources:
         MofOperationMode:
           - Apply
         ComplianceType:
-          - Custom:DSCDemo
-        ReportBucketName:
-          - ""
-        StatusBucketName:
-          - ""
+          - Custom:DomainJoinSample
         ModuleSourceBucketName:
           - "NONE"
         AllowPSGalleryModuleSource:
           - "True"
-        ProxyUri:
-          - ""
         RebootBehavior:
           - "AfterMof"
         UseComputerNameForReporting:
@@ -898,8 +892,6 @@ Resources:
           - "False"
         EnableDebugLogging:
           - "False"
-        PreRebootScript: 
-          - ""
 Outputs:
   DomainAdmin:
     Value: !Join
