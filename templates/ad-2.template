@@ -5,7 +5,7 @@ Description: >-
   VPC, you can promote the Windows Server instances to Domain Controllers in your
   AD forest. **WARNING** This template creates Amazon EC2 Windows instance and related
   resources. You will be billed for the AWS resources used if you create a stack from
-  this template. QS(0002)
+  this template. (qs-1qup6radg)
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
